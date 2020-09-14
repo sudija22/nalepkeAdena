@@ -76,19 +76,56 @@ namespace nalepkeAdena
         private void button1_Click(object sender, EventArgs e)//izberi datoteko
         {
             int size = -1;
-            DialogResult result = openFileDialog1.ShowDialog(); // Show the dialog.
-            if (result == DialogResult.OK) // Test result.
+            var fileContent = string.Empty;
+            var filePath = string.Empty;
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                datoteka = openFileDialog1.FileName;
-                try
+                openFileDialog.InitialDirectory = "c:\\";
+                openFileDialog.Filter = "xlsx files (*.xlsx)|*.xlsx";
+                openFileDialog.FilterIndex = 2;
+                openFileDialog.RestoreDirectory = true;
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK) // Test result.
                 {
-                    string text = File.ReadAllText(datoteka);
-                    size = text.Length;
+                    datoteka = openFileDialog1.FileName;
+                    try
+                    {
+                        {
+                            //Get the path of specified file
+                            filePath = datoteka;
+
+                            //Read the contents of the file into a stream
+                            var fileStream = openFileDialog1.OpenFile();
+
+                            using (StreamReader reader = new StreamReader(fileStream))
+                            {
+                                fileContent = reader.ReadToEnd();
+                            }
+                        }
+
+                        string text = File.ReadAllText(datoteka);
+                        size = text.Length;
+                    }
+                    catch (IOException napaka)
+                    {
+                    }
                 }
-                catch (IOException)
-                {
-                }
+
             }
+
+            
+            
+        }
+        private void preverjaj(object sender, EventArgs e, string datoteka)
+        {
+            if (datoteka == null)
+            {
+                MessageBox.Show("Najprej izberi datoteko");
+            }
+            string formatCheck = datoteka.Substring((datoteka.Length - 4), 4);
+            if ( ) { 
+            }
+
         }
 
         private void potrditev_Click(object sender, EventArgs e)
@@ -106,6 +143,7 @@ namespace nalepkeAdena
                 }
                 else
                 {
+                    
                     SLDocument fileNarocila = new SLDocument(datoteka); //open order file
 
                     //SLDocument fileNalepke = new SLDocument("predloga.xlsx");// open template file
