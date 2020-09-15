@@ -92,7 +92,7 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Zen.Barcode.Core">
-      <HintPath>..\..\..\Downloads\Zen.Barcode.Core.dll</HintPath>
+      <HintPath>..\..\Zen.Barcode.Core.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
