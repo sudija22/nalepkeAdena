@@ -38,6 +38,7 @@
             this.createBarcode = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.barcodeText = new System.Windows.Forms.TextBox();
+            this.button3 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -107,7 +108,6 @@
             this.createBarcode.TabIndex = 4;
             this.createBarcode.Text = "Kreiraj neko coo";
             this.createBarcode.UseVisualStyleBackColor = true;
-
             // 
             // pictureBox2
             // 
@@ -124,11 +124,21 @@
             this.barcodeText.Size = new System.Drawing.Size(100, 20);
             this.barcodeText.TabIndex = 6;
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(394, 85);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 8;
+            this.button3.Text = "button3";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(528, 420);
+            this.Controls.Add(this.button3);
             this.Controls.Add(this.barcodeText);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.createBarcode);
@@ -159,6 +169,7 @@
         private System.Windows.Forms.TextBox barcodeText;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Button createBarcode;
+        private System.Windows.Forms.Button button3;
     }
 }
 
