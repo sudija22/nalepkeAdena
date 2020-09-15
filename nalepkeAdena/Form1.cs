@@ -462,6 +462,21 @@ namespace nalepkeAdena
         {
 
         }
+
+        private void createBarcode_Click(object sender, EventArgs e)
+        {
+            string barCodeTest = barcodeText.Text;
+            try
+            {
+                Zen.Barcode.Code128BarcodeDraw brCode = Zen.Barcode.BarcodeDrawFactory.Code128WithChecksum;
+                pictureBox2.Image = brCode.Draw(barCodeTest, 50); // številka pomeni višino, širina je odvisna od števila znakov // kako bomo pozicionirali
+
+            }
+            catch
+            {
+
+            }
+        }
     }
 }
 
