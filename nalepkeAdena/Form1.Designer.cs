@@ -107,7 +107,7 @@
             this.createBarcode.TabIndex = 4;
             this.createBarcode.Text = "Kreiraj neko coo";
             this.createBarcode.UseVisualStyleBackColor = true;
-            this.createBarcode.Click += new System.EventHandler(this.createBarcode_Click);
+
             // 
             // pictureBox2
             // 

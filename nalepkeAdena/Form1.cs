@@ -94,7 +94,7 @@ namespace nalepkeAdena
                            
                             //Get the path of specified file
                             filePath = datoteka;
-
+                            Console.WriteLine(datoteka);
                             //Read the contents of the file into a stream
                             var fileStream = openFileDialog.OpenFile();
 
@@ -146,8 +146,9 @@ namespace nalepkeAdena
                 
                 
                     
-                    SLDocument fileNarocila = new SLDocument(datoteka); //open order file
+                SLDocument fileNarocila = new SLDocument(datoteka); //open order file
                 Console.WriteLine("tukaj");
+                Console.WriteLine(datoteka);
                 Console.WriteLine(fileNarocila.GetCellValueAsString(1, 1));
                 //SLDocument fileNalepke = new SLDocument("predloga.xlsx");// open template file
                 string pathPredloga = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
@@ -190,11 +191,45 @@ namespace nalepkeAdena
 
                      //MessageBox.Show(steviloStrani.ToString());
                      SLWorksheetStatistics stats = fileNarocila.GetWorksheetStatistics(); // stats for order file, to get last row
-               
+
                 
-                    for (int i = 1; i <= stats.EndRowIndex; i++)
+                string newFileName = @"C: \Users\tomaz\Desktop\Novica.xlsx";
+                try
+                {
+                    // Check if file already exists. If yes, delete it.     
+                    if (File.Exists(newFileName))
                     {
-                        vrsticaCheck = fileNarocila.GetCellValueAsString(i, 2);
+                        File.Delete(newFileName);
+                    }
+
+                    // Create a new file     
+                    using (FileStream fs = File.Create(newFileName));
+                    
+
+                    
+                }
+                catch (Exception Ex)
+                {
+                    Console.WriteLine(Ex.ToString());
+                }
+                SLDocument fileNovica = new SLDocument("C:\\Users\\tomaz\\Desktop\\Novica.xlsx"); //open order file
+                for (int i = 1; i <= stats.EndRowIndex; i++)
+                {
+                    string besedilo = "";
+                    vrsticaCheck = fileNarocila.GetCellValueAsString(i, 2);
+                    
+                    for (int j = 1; j <= stats.EndColumnIndex; j++)
+                    {
+                        string text = fileNarocila.GetCellValueAsString(i, j);
+                        besedilo += text;
+
+                    }
+                    Console.WriteLine(besedilo);
+                    // Add some text to file    
+
+                    fileNovica.SetCellValue(i, 1, besedilo);
+
+                }
                     
                       //  if (vrsticaCheck != "")
                       /*  {
@@ -438,7 +473,7 @@ namespace nalepkeAdena
                                 }
 
                         } */
-                    }
+                    
 
                     string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); //get current user destop path
     //                string shrani = pathPredloga + "\\nalepkeProgram\\" + datum + " NALEPKE.xlsx";
