@@ -87,15 +87,16 @@ namespace nalepkeAdena
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK) // Test result.
                 {
-                    datoteka = openFileDialog1.FileName;
+                    datoteka = openFileDialog.FileName;
                     try
                     {
                         {
+                           
                             //Get the path of specified file
                             filePath = datoteka;
 
                             //Read the contents of the file into a stream
-                            var fileStream = openFileDialog1.OpenFile();
+                            var fileStream = openFileDialog.OpenFile();
 
                             using (StreamReader reader = new StreamReader(fileStream))
                             {
@@ -116,57 +117,59 @@ namespace nalepkeAdena
             
             
         }
-        private void preverjaj(object sender, EventArgs e, string datoteka)
+        private Boolean checkFileFormat(object sender, EventArgs e, string datoteka)
         {
-            if (datoteka == null)
-            {
-                MessageBox.Show("Najprej izberi datoteko");
+            try {
+                if (datoteka == null)
+                {
+                    MessageBox.Show("Najprej izberi datoteko");
+                    return false;
+                }
+                string formatCheck = datoteka.Substring((datoteka.Length - 4), 4);
+                if (formatCheck != "xlsx") {
+                    MessageBox.Show("Format ni pravilen. Pravilen format je '.xlsx'");
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
             }
-            string formatCheck = datoteka.Substring((datoteka.Length - 4), 4);
-            if ( ) { 
+            catch(IOException napaka) {
+                return false;
             }
-
         }
 
         private void potrditev_Click(object sender, EventArgs e)
         {
-            if (datoteka == null)
-            {
-                MessageBox.Show("Najprej izberi datoteko");
-            }
-            else
-            {
-                string formatCheck = datoteka.Substring((datoteka.Length - 4), 4);
-                if (formatCheck != "xlsx" && formatCheck != ".ods")
-                {
-                    MessageBox.Show("Format ni pravilen. Pravilen format je '.xlsx'");
-                }
-                else
-                {
+            if (checkFileFormat(sender, e, datoteka)) { 
+                
+                
                     
                     SLDocument fileNarocila = new SLDocument(datoteka); //open order file
-
-                    //SLDocument fileNalepke = new SLDocument("predloga.xlsx");// open template file
-                    string pathPredloga = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                Console.WriteLine("tukaj");
+                Console.WriteLine(fileNarocila.GetCellValueAsString(1, 1));
+                //SLDocument fileNalepke = new SLDocument("predloga.xlsx");// open template file
+                string pathPredloga = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                     string kocnoPredlogaPath = pathPredloga + "\\nalepkeProgram\\predloga.xlsx";
-                    SLDocument fileNalepke = new SLDocument(kocnoPredlogaPath);
-                    //SLDocument fileNalepkeOblecene = new SLDocument("predlogaOblecene.xlsx");
-                    SLStyle fontMereLength = fileNalepke.CreateStyle();
-                    SLStyle fontModelLength1 = fileNalepke.CreateStyle();
-                    SLStyle odebeljeno = fileNalepke.CreateStyle();
+                // SLDocument fileNalepke = new SLDocument(kocnoPredlogaPath);
+                //SLDocument fileNalepkeOblecene = new SLDocument("predlogaOblecene.xlsx");
+                //     SLStyle fontMereLength = fileNalepke.CreateStyle();
+                //    SLStyle fontModelLength1 = fileNalepke.CreateStyle();
+                //    SLStyle odebeljeno = fileNalepke.CreateStyle();
 
-                    fontMereLength.Font.FontSize = 14; // change if string lengt of size is too long 9 chars.
+                /*    fontMereLength.Font.FontSize = 14; // change if string lengt of size is too long 9 chars.
                     fontModelLength1.Font.FontSize = 16;
                     fontMereLength.Font.FontName = "Arial CE";
                     fontModelLength1.Font.FontName = "Arial CE";
                     odebeljeno.Font.Bold = true;
                     odebeljeno.Font.FontName = "Arial CE";
 
-                    SLStyle fontModelLength2 = fileNalepke.CreateStyle();
+                    SLStyle fontModelLength2 = fileNalepke.CreateStyle(); 
                     fontModelLength2.Font.FontSize = 13.5;
-                    fontModelLength2.Font.FontName = "Arial CE";
+                    fontModelLength2.Font.FontName = "Arial CE"; 
 
-                    Random r = new Random(); //kaj je to ?
+                Random r = new Random(); //kaj je to ?
 
                     int kazalec = 2;
 
@@ -182,16 +185,19 @@ namespace nalepkeAdena
                         formatiranDatum += splitanDatum[1];
                     }
                     string leto = splitanDatum[2].Substring((splitanDatum[2].Length - 2), 2);
-                    formatiranDatum += leto;
+                    formatiranDatum += leto; */
 
 
-                    //MessageBox.Show(steviloStrani.ToString());
-                    SLWorksheetStatistics stats = fileNarocila.GetWorksheetStatistics(); // stats for order file, to get last row
-                    for (int i = 3; i <= stats.EndRowIndex; i++)
+                     //MessageBox.Show(steviloStrani.ToString());
+                     SLWorksheetStatistics stats = fileNarocila.GetWorksheetStatistics(); // stats for order file, to get last row
+               
+                
+                    for (int i = 1; i <= stats.EndRowIndex; i++)
                     {
                         vrsticaCheck = fileNarocila.GetCellValueAsString(i, 2);
-                        if (vrsticaCheck != "")
-                        {
+                    
+                      //  if (vrsticaCheck != "")
+                      /*  {
                             steviloKosov = fileNarocila.GetCellValueAsInt32(i, 18);// get number of same items
 
                             for (int j = steviloKosov; j > 0; j--)
@@ -431,19 +437,19 @@ namespace nalepkeAdena
                                     kazalec += 11; // next sticker pointer
                                 }
 
-                        }
+                        } */
                     }
 
                     string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); //get current user destop path
-                    string shrani = pathPredloga + "\\nalepkeProgram\\" + datum + " NALEPKE.xlsx";
+    //                string shrani = pathPredloga + "\\nalepkeProgram\\" + datum + " NALEPKE.xlsx";
                     //string shrani = path + "\\" + datum + "NALEPKE.xlsx"; // format save name of file to save on user destop
                     //MessageBox.Show(shrani);
-                    fileNalepke.SaveAs(shrani); //save sticker file
+   //                 fileNalepke.SaveAs(shrani); //save sticker file
                     fileNarocila.CloseWithoutSaving(); //close order file
                     MessageBox.Show("Nalepke so kreirane."); //messsage shot for successful sticker create
 
 
-                }
+
             }
         }
 
