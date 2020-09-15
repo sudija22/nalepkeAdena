@@ -196,22 +196,30 @@ namespace nalepkeAdena
                 string newFileName = @"C: \Users\tomaz\Desktop\Novica.xlsx";
                 try
                 {
-                    // Check if file already exists. If yes, delete it.     
+                    // Check if file already exists. If yes, delete it.  
+                    /*
                     if (File.Exists(newFileName))
                     {
                         File.Delete(newFileName);
                     }
+                    */
 
                     // Create a new file     
-                    using (FileStream fs = File.Create(newFileName));
-                    
+                        using (var doc = new SLDocument())
+                        {
+                            
+                            
+                            doc.SaveAs(newFileName);
 
-                    
+                        }
+   
                 }
                 catch (Exception Ex)
                 {
                     Console.WriteLine(Ex.ToString());
                 }
+                //SLDocument fileNovica = new SLDocument("C:\\Users\\tomaz\\Desktop\\Novica.xlsx"); //open order file
+                
                 SLDocument fileNovica = new SLDocument("C:\\Users\\tomaz\\Desktop\\Novica.xlsx"); //open order file
                 for (int i = 1; i <= stats.EndRowIndex; i++)
                 {
@@ -228,8 +236,10 @@ namespace nalepkeAdena
                     // Add some text to file    
 
                     fileNovica.SetCellValue(i, 1, besedilo);
+                    
 
                 }
+                fileNovica.Save();
                     
                       //  if (vrsticaCheck != "")
                       /*  {
