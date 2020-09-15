@@ -123,8 +123,6 @@ namespace nalepkeAdena
                 MessageBox.Show("Najprej izberi datoteko");
             }
             string formatCheck = datoteka.Substring((datoteka.Length - 4), 4);
-            if ( ) { 
-            }
 
         }
 
@@ -455,6 +453,20 @@ namespace nalepkeAdena
         private void label1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void createBarcode_Click(object sender, EventArgs e)
+        {
+            string barcodeString = barcodeText.Text;
+            try
+            {
+                Zen.Barcode.Code128BarcodeDraw brCode = Zen.Barcode.BarcodeDrawFactory.Code128WithChecksum;
+                pictureBox2.Image = brCode.Draw(barcodeString, 60);
+            }
+            catch (Exception)
+            {
+
+            }
         }
     }
 }

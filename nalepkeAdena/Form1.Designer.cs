@@ -35,8 +35,12 @@
             this.button1 = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.createBarcode = new System.Windows.Forms.Button();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.barcodeText = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // potrditev
@@ -95,11 +99,39 @@
             this.label1.Text = resources.GetString("label1.Text");
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
+            // createBarcode
+            // 
+            this.createBarcode.Location = new System.Drawing.Point(282, 361);
+            this.createBarcode.Name = "createBarcode";
+            this.createBarcode.Size = new System.Drawing.Size(208, 21);
+            this.createBarcode.TabIndex = 4;
+            this.createBarcode.Text = "Kreiraj neko coo";
+            this.createBarcode.UseVisualStyleBackColor = true;
+            this.createBarcode.Click += new System.EventHandler(this.createBarcode_Click);
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Location = new System.Drawing.Point(30, 279);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(214, 103);
+            this.pictureBox2.TabIndex = 5;
+            this.pictureBox2.TabStop = false;
+            // 
+            // barcodeText
+            // 
+            this.barcodeText.Location = new System.Drawing.Point(311, 302);
+            this.barcodeText.Name = "barcodeText";
+            this.barcodeText.Size = new System.Drawing.Size(100, 20);
+            this.barcodeText.TabIndex = 6;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(365, 293);
+            this.ClientSize = new System.Drawing.Size(528, 420);
+            this.Controls.Add(this.barcodeText);
+            this.Controls.Add(this.pictureBox2);
+            this.Controls.Add(this.createBarcode);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
@@ -110,6 +142,7 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -123,6 +156,9 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox barcodeText;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Button createBarcode;
     }
 }
 
