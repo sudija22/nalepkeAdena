@@ -38,7 +38,8 @@
             this.createBarcode = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.barcodeText = new System.Windows.Forms.TextBox();
-            this.button3 = new System.Windows.Forms.Button();
+            this.btnBedList = new System.Windows.Forms.Button();
+            this.btnCreateLabelBed = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -124,21 +125,35 @@
             this.barcodeText.Size = new System.Drawing.Size(100, 20);
             this.barcodeText.TabIndex = 6;
             // 
-            // button3
+            // btnBedList
             // 
-            this.button3.Location = new System.Drawing.Point(394, 85);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 8;
-            this.button3.Text = "button3";
-            this.button3.UseVisualStyleBackColor = true;
+            this.btnBedList.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+            this.btnBedList.Location = new System.Drawing.Point(456, 12);
+            this.btnBedList.Name = "btnBedList";
+            this.btnBedList.Size = new System.Drawing.Size(155, 74);
+            this.btnBedList.TabIndex = 8;
+            this.btnBedList.Text = "Naloži listo za postelje";
+            this.btnBedList.UseVisualStyleBackColor = true;
+            this.btnBedList.Click += new System.EventHandler(this.btnBedList_Click);
+            // 
+            // btnCreateLabelBed
+            // 
+            this.btnCreateLabelBed.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+            this.btnCreateLabelBed.Location = new System.Drawing.Point(456, 177);
+            this.btnCreateLabelBed.Name = "btnCreateLabelBed";
+            this.btnCreateLabelBed.Size = new System.Drawing.Size(146, 86);
+            this.btnCreateLabelBed.TabIndex = 10;
+            this.btnCreateLabelBed.Text = "Kreiraj etike za postelje";
+            this.btnCreateLabelBed.UseVisualStyleBackColor = true;
+            this.btnCreateLabelBed.Click += new System.EventHandler(this.btnCreateLabelBed_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(528, 420);
-            this.Controls.Add(this.button3);
+            this.ClientSize = new System.Drawing.Size(651, 469);
+            this.Controls.Add(this.btnCreateLabelBed);
+            this.Controls.Add(this.btnBedList);
             this.Controls.Add(this.barcodeText);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.createBarcode);
@@ -169,7 +184,8 @@
         private System.Windows.Forms.TextBox barcodeText;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Button createBarcode;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button btnBedList;
+        private System.Windows.Forms.Button btnCreateLabelBed;
     }
 }
 
