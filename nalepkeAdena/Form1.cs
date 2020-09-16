@@ -32,11 +32,11 @@ namespace nalepkeAdena
 
         string datoteka = null;
         string rif;
-        string model;
-        string vrsta; //1,2,3
-        string dolzina;
-        string sirina;
-        int steviloKosov;
+        string modelFrame;
+        string typeFrame; //1,2,3
+        string sizeXFrame;
+        string sizeYFrame;
+        int piecesFrame;
         string narocilo;
         string dodatek1;
         string lastnost1;
@@ -233,276 +233,319 @@ namespace nalepkeAdena
                 }
                 //SLDocument fileNovica = new SLDocument("C:\\Users\\tomaz\\Desktop\\Novica.xlsx"); //open order file
                 
-                SLDocument fileNovica = new SLDocument("C:\\Users\\tomaz\\Desktop\\Novica.xlsx"); //open order file
-                for (int i = 1; i <= stats.EndRowIndex; i++)
+                SLDocument fileNovica = new SLDocument("C:\\Users\\tomaz\\Desktop\\predloga.xlsx"); //open order file
+                SLDocument fileNovica1 = new SLDocument("C:\\Users\\tomaz\\Desktop\\Novica.xlsx"); //open order file
+                int stevec = 2;
+                
+                for (int i = 3; i <= stats.NumberOfRows; i++)
                 {
-                    string besedilo = "";
-                    vrsticaCheck = fileNarocila.GetCellValueAsString(i, 2);
+                    string mess = "halooo";
+                    modelFrame = fileNarocila.GetCellValueAsString(i, 6);
+                    typeFrame = fileNarocila.GetCellValueAsString(i, 7);
+                    sizeXFrame = fileNarocila.GetCellValueAsString(i, 9);
+                    sizeYFrame = fileNarocila.GetCellValueAsString(i, 10);
+                    piecesFrame = fileNarocila.GetCellValueAsInt32(i, 22);
                     
-                    for (int j = 1; j <= stats.EndColumnIndex; j++)
-                    {
-                        string text = fileNarocila.GetCellValueAsString(i, j);
-                        besedilo += text;
-
-                    }
-                    Console.WriteLine(besedilo);
+                    Console.WriteLine(mess);
                     // Add some text to file    
+                    for (int j = 1; j <= piecesFrame; j++)
+                    {
+                        //prva vrstica
+                        fileNovica.SetCellValue(stevec, 1, "ORDINE:");
+                        stevec++;
 
-                    fileNovica.SetCellValue(i, 1, besedilo);
-                    
+                        //druga vrstica
+                        fileNovica.SetCellValue(stevec, 1, "RIF:");
+                        stevec++;
+
+
+                        //tretja vrstica
+                        stevec++;
+
+                        //cetrta vrstica 
+                        stevec++;
+
+                        //peta vrstica
+                        fileNovica.SetCellValue(stevec, 1, modelFrame);
+                        fileNovica.SetCellValue(stevec, 7, typeFrame);
+                        stevec++;
+
+                        //sesta vrstica
+                        stevec++;
+
+                        //sedma vrstica
+                        fileNovica.SetCellValue(stevec, 1, sizeXFrame + "X" + sizeYFrame);
+
+
+                        //to bos izbrisal drugic
+                        stevec = stevec + 5;
+                        
+                        Console.WriteLine("nekar me");
+                    }
+
 
                 }
-                fileNovica.Save();
-                    
-                      //  if (vrsticaCheck != "")
-                      /*  {
-                            steviloKosov = fileNarocila.GetCellValueAsInt32(i, 18);// get number of same items
+                
+                DateTime thisDay = DateTime.Today;
+                Console.WriteLine(thisDay.ToString("d"));
+                string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); //get current user destop path
+                string shrani = path + "\\" + thisDay.ToString("d") + "NALEPKE.xlsx"; // format save name of file to save on user destop
+                MessageBox.Show(shrani);
+                fileNovica.SaveAs(shrani); //save sticker file
 
-                            for (int j = steviloKosov; j > 0; j--)
-                            {
-                                //getting stuff from order file
-                                narocilo = fileNarocila.GetCellValueAsString(i, 3);
-                                oznakaModel = fileNarocila.GetCellValueAsString(i, 4);
-                                model = fileNarocila.GetCellValueAsString(i, 5);
-                                vrsta = fileNarocila.GetCellValueAsString(i, 6);
-                                guma = fileNarocila.GetCellValueAsString(i, 7);
-                                sirina = fileNarocila.GetCellValueAsString(i, 8);
-                                dolzina = fileNarocila.GetCellValueAsString(i, 9);
-                                string mere = sirina + " x " + dolzina;
-                                dodatek1 = fileNarocila.GetCellValueAsString(i, 10); //CB,AU,GA ....
-                                dodatek2 = fileNarocila.GetCellValueAsString(i, 11);  //karton
-                                dodatek3 = fileNarocila.GetCellValueAsString(i, 12); // vreča
-                                dodatek4 = fileNarocila.GetCellValueAsString(i, 13); // dodatek 60*40 + new model
-                                kraj = fileNarocila.GetCellValueAsString(i, 14);
-                                rif = fileNarocila.GetCellValueAsString(i, 15);
-                                rifInKraj = kraj + rif;
-                                lastnost1 = fileNarocila.GetCellValueAsString(i, 16);
-                                lastnost1 = lastnost1.Replace("-1CM", "");
-                                lastnost2 = fileNarocila.GetCellValueAsString(i, 17);
-
-                                if (dodatek2 == "C" && dodatek3 != "D") // preveriz "C" za krton;
-                                {
-                                    fileNalepke.SetCellValue(kazalec + 7, 4, "CON CARTONE");
-                                    fileNalepke.SetCellValue(kazalec + 7, 17, "CON CARTONE");
-                                }
-                                if (dodatek2 != "C" && dodatek3 == "D")
-                                {
-                                    fileNalepke.SetCellValue(kazalec + 7, 4, "SACHETTO");
-                                    fileNalepke.SetCellValue(kazalec + 7, 17, "SACHETTO");
-                                }
-                                if (dodatek2 == "C" && dodatek3 == "D")
-                                {
-                                    fileNalepke.SetCellValue(kazalec + 7, 4, "SACHETTO+CARTONE");
-                                    fileNalepke.SetCellValue(kazalec + 7, 17, "SACHETTO+CARTONE");
-                                }
-
-                                fileNalepke.SetCellValue(kazalec, 1, "ORDINE:"); //ordinare box, rif box , date box, supplement box (cb)
-                                fileNalepke.SetCellValue(kazalec, 14, "ORDINE:");
-                                if (rifInKraj != "")
-                                {
-                                    fileNalepke.SetCellValue(kazalec + 1, 1, "RIF.");
-                                    fileNalepke.SetCellValue(kazalec + 1, 14, "RIF.");
-                                    fileNalepke.SetCellValue(kazalec + 1, 2, rifInKraj);
-                                    fileNalepke.SetCellValue(kazalec + 1, 15, rifInKraj);
-                                }
-
-                                fileNalepke.SetCellValue(kazalec + 2, 7, dodatek1);
-                                fileNalepke.SetCellValue(kazalec + 2, 20, dodatek1);
-                                fileNalepke.SetCellValue(kazalec, 7, formatiranDatum);
-                                fileNalepke.SetCellValue(kazalec, 20, formatiranDatum);
-                                if (dodatek1 == "CB")
-                                {
-                                    fileNalepke.SetCellValue(kazalec + 2, 1, cbText1); //CB text add
-                                    fileNalepke.SetCellValue(kazalec + 3, 1, cbText2); // podaj narekovaje
-                                    fileNalepke.SetCellValue(kazalec + 2, 14, cbText1);
-                                    fileNalepke.SetCellValue(kazalec + 3, 14, cbText2); // podaj narekovaje
-                                }
-                                if (dodatek1 == "CC")
-                                {
-                                    fileNalepke.SetCellValue(kazalec + 2, 1, ccText1); //CC text add
-                                    fileNalepke.SetCellValue(kazalec + 2, 14, ccText1);
-                                }
-                                if (dodatek1 == "CL")
-                                {
-                                    fileNalepke.SetCellValue(kazalec + 2, 1, clText1); //CL text add
-                                    fileNalepke.SetCellValue(kazalec + 3, 1, clText2);
-                                    fileNalepke.SetCellValue(kazalec + 2, 14, clText1);
-                                    fileNalepke.SetCellValue(kazalec + 3, 14, clText2);
-                                }
-                                if (dodatek1 == "LF")
-                                {
-                                    fileNalepke.SetCellValue(kazalec + 2, 1, lfText1); //LF text add
-                                    fileNalepke.SetCellValue(kazalec + 2, 14, lfText1);
-                                }
-                                if (dodatek1 == "GO")
-                                {
-                                    fileNalepke.SetCellValue(kazalec + 2, 1, goText1); //GO text add
-                                    fileNalepke.SetCellValue(kazalec + 2, 14, goText1);
-                                }
-                                if (dodatek1 == "AU")
-                                {
-                                    fileNalepke.SetCellValue(kazalec + 2, 1, auText1); //AU text add
-                                    fileNalepke.SetCellValue(kazalec + 2, 14, auText1);
-                                }
+                //fileNovica.CloseWithoutSaving(); //close order file
 
 
-                                fileNalepke.SetCellValue(kazalec, 3, narocilo); //narocilo, rifkraj
-                                fileNalepke.SetCellValue(kazalec, 16, narocilo);
+                //  if (vrsticaCheck != "")
+                /*  {
+                      steviloKosov = fileNarocila.GetCellValueAsInt32(i, 18);// get number of same items
+
+                      for (int j = steviloKosov; j > 0; j--)
+                      {
+                          //getting stuff from order file
+                          narocilo = fileNarocila.GetCellValueAsString(i, 3);
+                          oznakaModel = fileNarocila.GetCellValueAsString(i, 4);
+                          model = fileNarocila.GetCellValueAsString(i, 5);
+                          vrsta = fileNarocila.GetCellValueAsString(i, 6);
+                          guma = fileNarocila.GetCellValueAsString(i, 7);
+                          sirina = fileNarocila.GetCellValueAsString(i, 8);
+                          dolzina = fileNarocila.GetCellValueAsString(i, 9);
+                          string mere = sirina + " x " + dolzina;
+                          dodatek1 = fileNarocila.GetCellValueAsString(i, 10); //CB,AU,GA ....
+                          dodatek2 = fileNarocila.GetCellValueAsString(i, 11);  //karton
+                          dodatek3 = fileNarocila.GetCellValueAsString(i, 12); // vreča
+                          dodatek4 = fileNarocila.GetCellValueAsString(i, 13); // dodatek 60*40 + new model
+                          kraj = fileNarocila.GetCellValueAsString(i, 14);
+                          rif = fileNarocila.GetCellValueAsString(i, 15);
+                          rifInKraj = kraj + rif;
+                          lastnost1 = fileNarocila.GetCellValueAsString(i, 16);
+                          lastnost1 = lastnost1.Replace("-1CM", "");
+                          lastnost2 = fileNarocila.GetCellValueAsString(i, 17);
+
+                          if (dodatek2 == "C" && dodatek3 != "D") // preveriz "C" za krton;
+                          {
+                              fileNalepke.SetCellValue(kazalec + 7, 4, "CON CARTONE");
+                              fileNalepke.SetCellValue(kazalec + 7, 17, "CON CARTONE");
+                          }
+                          if (dodatek2 != "C" && dodatek3 == "D")
+                          {
+                              fileNalepke.SetCellValue(kazalec + 7, 4, "SACHETTO");
+                              fileNalepke.SetCellValue(kazalec + 7, 17, "SACHETTO");
+                          }
+                          if (dodatek2 == "C" && dodatek3 == "D")
+                          {
+                              fileNalepke.SetCellValue(kazalec + 7, 4, "SACHETTO+CARTONE");
+                              fileNalepke.SetCellValue(kazalec + 7, 17, "SACHETTO+CARTONE");
+                          }
+
+                          fileNalepke.SetCellValue(kazalec, 1, "ORDINE:"); //ordinare box, rif box , date box, supplement box (cb)
+                          fileNalepke.SetCellValue(kazalec, 14, "ORDINE:");
+                          if (rifInKraj != "")
+                          {
+                              fileNalepke.SetCellValue(kazalec + 1, 1, "RIF.");
+                              fileNalepke.SetCellValue(kazalec + 1, 14, "RIF.");
+                              fileNalepke.SetCellValue(kazalec + 1, 2, rifInKraj);
+                              fileNalepke.SetCellValue(kazalec + 1, 15, rifInKraj);
+                          }
+
+                          fileNalepke.SetCellValue(kazalec + 2, 7, dodatek1);
+                          fileNalepke.SetCellValue(kazalec + 2, 20, dodatek1);
+                          fileNalepke.SetCellValue(kazalec, 7, formatiranDatum);
+                          fileNalepke.SetCellValue(kazalec, 20, formatiranDatum);
+                          if (dodatek1 == "CB")
+                          {
+                              fileNalepke.SetCellValue(kazalec + 2, 1, cbText1); //CB text add
+                              fileNalepke.SetCellValue(kazalec + 3, 1, cbText2); // podaj narekovaje
+                              fileNalepke.SetCellValue(kazalec + 2, 14, cbText1);
+                              fileNalepke.SetCellValue(kazalec + 3, 14, cbText2); // podaj narekovaje
+                          }
+                          if (dodatek1 == "CC")
+                          {
+                              fileNalepke.SetCellValue(kazalec + 2, 1, ccText1); //CC text add
+                              fileNalepke.SetCellValue(kazalec + 2, 14, ccText1);
+                          }
+                          if (dodatek1 == "CL")
+                          {
+                              fileNalepke.SetCellValue(kazalec + 2, 1, clText1); //CL text add
+                              fileNalepke.SetCellValue(kazalec + 3, 1, clText2);
+                              fileNalepke.SetCellValue(kazalec + 2, 14, clText1);
+                              fileNalepke.SetCellValue(kazalec + 3, 14, clText2);
+                          }
+                          if (dodatek1 == "LF")
+                          {
+                              fileNalepke.SetCellValue(kazalec + 2, 1, lfText1); //LF text add
+                              fileNalepke.SetCellValue(kazalec + 2, 14, lfText1);
+                          }
+                          if (dodatek1 == "GO")
+                          {
+                              fileNalepke.SetCellValue(kazalec + 2, 1, goText1); //GO text add
+                              fileNalepke.SetCellValue(kazalec + 2, 14, goText1);
+                          }
+                          if (dodatek1 == "AU")
+                          {
+                              fileNalepke.SetCellValue(kazalec + 2, 1, auText1); //AU text add
+                              fileNalepke.SetCellValue(kazalec + 2, 14, auText1);
+                          }
 
 
-                                if (model == "EVO   SATURNO")
-                                {
-                                    fileNalepke.SetCellValue(kazalec + 4, 1, "SATURNO"); //saturno check model and type
-                                    fileNalepke.SetCellValue(kazalec + 4, 7, "E1");
-                                    fileNalepke.SetCellValue(kazalec + 4, 14, "SATURNO");
-                                    fileNalepke.SetCellValue(kazalec + 4, 20, "E1");
-                                    fileNalepke.SetCellValue(kazalec + 6, 4, lastnost1); // lastnosti 
-                                    fileNalepke.SetCellValue(kazalec + 6, 17, lastnost1);
-
-                                    fileNalepke.SetCellStyle(kazalec + 8, 1, odebeljeno);
-                                    fileNalepke.SetCellStyle(kazalec + 8, 14, odebeljeno);
-                                    fileNalepke.SetCellValue(kazalec + 8, 1, " ");
-                                    fileNalepke.SetCellValue(kazalec + 8, 14, " ");
-                                }
-                                if (model == "EVO  PT  PLUTONE")
-                                {
-                                    fileNalepke.SetCellValue(kazalec + 4, 1, "PLUTONE"); // plutone check model and type
-                                    fileNalepke.SetCellValue(kazalec + 4, 7, "E2");
-                                    fileNalepke.SetCellValue(kazalec + 4, 14, "PLUTONE");
-                                    fileNalepke.SetCellValue(kazalec + 4, 20, "E2");
-                                    fileNalepke.SetCellValue(kazalec + 6, 4, lastnost1); // lastnosti 
-                                    fileNalepke.SetCellValue(kazalec + 6, 17, lastnost1);
-
-                                    fileNalepke.SetCellStyle(kazalec + 8, 1, odebeljeno);
-                                    fileNalepke.SetCellStyle(kazalec + 8, 14, odebeljeno);
-                                    fileNalepke.SetCellValue(kazalec + 8, 1, " ");
-                                    fileNalepke.SetCellValue(kazalec + 8, 14, " ");
-                                }
-                                if (model == "EVO  PT  NETTUNO")
-                                {
-                                    fileNalepke.SetCellValue(kazalec + 4, 1, "NETTUNO"); //nettuno check model and type
-                                    fileNalepke.SetCellValue(kazalec + 4, 7, "E3");
-                                    fileNalepke.SetCellValue(kazalec + 4, 14, "NETTUNO");
-                                    fileNalepke.SetCellValue(kazalec + 4, 20, "E3");
-                                    fileNalepke.SetCellStyle(kazalec + 8, 1, odebeljeno);
-                                    fileNalepke.SetCellStyle(kazalec + 8, 14, odebeljeno);
-                                    fileNalepke.SetCellValue(kazalec + 8, 1, " ");
-                                    fileNalepke.SetCellValue(kazalec + 8, 14, " ");
-                                    if (dodatek1 == "")
-                                    {
-                                        fileNalepke.SetCellStyle(kazalec + 8, 1, odebeljeno);
-                                        fileNalepke.SetCellStyle(kazalec + 8, 14, odebeljeno);
-                                        fileNalepke.SetCellValue(kazalec + 8, 1, motoriNapis);
-                                        fileNalepke.SetCellValue(kazalec + 8, 14, motoriNapis);
-                                    }
-                                    if (lastnost2.Contains("T1") || lastnost2.Contains("T2") || lastnost2.Contains("T3") || lastnost2.Contains("T4") || lastnost2.Contains("T5"))
-                                    {
-                                        fileNalepke.SetCellStyle(kazalec + 8, 1, odebeljeno);
-                                        fileNalepke.SetCellStyle(kazalec + 8, 14, odebeljeno);
-                                        fileNalepke.SetCellValue(kazalec + 8, 1, motoriNapis);
-                                        fileNalepke.SetCellValue(kazalec + 8, 14, motoriNapis);
-                                    }
-
-                                    fileNalepke.SetCellValue(kazalec + 6, 4, lastnost1); // lastnosti 
-                                    fileNalepke.SetCellValue(kazalec + 6, 17, lastnost1);
+                          fileNalepke.SetCellValue(kazalec, 3, narocilo); //narocilo, rifkraj
+                          fileNalepke.SetCellValue(kazalec, 16, narocilo);
 
 
-                                }
-                                if (model != "EVO   SATURNO" && model != "EVO  PT  PLUTONE" && model != "EVO  PT  NETTUNO")
-                                {
-                                        fileNalepke.SetCellValue(kazalec + 6, 4, lastnost1); // lastnosti 
-                                        fileNalepke.SetCellValue(kazalec + 6, 17, lastnost1);
-                                    
-                                    if (lastnost2.Contains("T1") || lastnost2.Contains("T2") || lastnost2.Contains("T3") || lastnost2.Contains("T4") || lastnost2.Contains("T5"))
-                                    {
-                                        if (lastnost2.StartsWith("NCT3"))
-                                        {
-                                            if (lastnost1 == "")
-                                            {
-                                                fileNalepke.SetCellValue(kazalec + 6, 4, lastnost2);
-                                                fileNalepke.SetCellValue(kazalec + 6, 17, lastnost2);
-                                            }
-                                            else
-                                            {
-                                                MessageBox.Show("Nekje je napaka");
-                                            }
-                                        }
-                                        else
-                                        {
-                                            fileNalepke.SetCellStyle(kazalec + 8, 1, odebeljeno);
-                                            fileNalepke.SetCellStyle(kazalec + 8, 14, odebeljeno);
-                                            fileNalepke.SetCellValue(kazalec + 8, 1, motoriNapis + "    " + dodatek4);
-                                            fileNalepke.SetCellValue(kazalec + 8, 14, motoriNapis + "    " + dodatek4);
-                                        }
+                          if (model == "EVO   SATURNO")
+                          {
+                              fileNalepke.SetCellValue(kazalec + 4, 1, "SATURNO"); //saturno check model and type
+                              fileNalepke.SetCellValue(kazalec + 4, 7, "E1");
+                              fileNalepke.SetCellValue(kazalec + 4, 14, "SATURNO");
+                              fileNalepke.SetCellValue(kazalec + 4, 20, "E1");
+                              fileNalepke.SetCellValue(kazalec + 6, 4, lastnost1); // lastnosti 
+                              fileNalepke.SetCellValue(kazalec + 6, 17, lastnost1);
 
-                                    }
-                                    else
-                                    {
-                                        fileNalepke.SetCellStyle(kazalec + 8, 1, odebeljeno);
-                                        fileNalepke.SetCellStyle(kazalec + 8, 14, odebeljeno);
-                                        fileNalepke.SetCellValue(kazalec + 8, 1, lastnost2 + "    "+ dodatek4);
-                                        fileNalepke.SetCellValue(kazalec + 8, 14, lastnost2 + "    " +dodatek4);
-                                    }
+                              fileNalepke.SetCellStyle(kazalec + 8, 1, odebeljeno);
+                              fileNalepke.SetCellStyle(kazalec + 8, 14, odebeljeno);
+                              fileNalepke.SetCellValue(kazalec + 8, 1, " ");
+                              fileNalepke.SetCellValue(kazalec + 8, 14, " ");
+                          }
+                          if (model == "EVO  PT  PLUTONE")
+                          {
+                              fileNalepke.SetCellValue(kazalec + 4, 1, "PLUTONE"); // plutone check model and type
+                              fileNalepke.SetCellValue(kazalec + 4, 7, "E2");
+                              fileNalepke.SetCellValue(kazalec + 4, 14, "PLUTONE");
+                              fileNalepke.SetCellValue(kazalec + 4, 20, "E2");
+                              fileNalepke.SetCellValue(kazalec + 6, 4, lastnost1); // lastnosti 
+                              fileNalepke.SetCellValue(kazalec + 6, 17, lastnost1);
 
-                                    if (model.Length <= 9)
-                                    {
-                                        fileNalepke.SetCellValue(kazalec + 4, 1, model); // other model's thab saturno, plutone, nettuno -> guma, type, model
-                                        fileNalepke.SetCellValue(kazalec + 4, 14, model);
-                                    }
-                                    else
-                                    {
-                                        if (model.Length > 9 && model.Length < 13)
-                                        {
-                                            fileNalepke.SetCellStyle(kazalec + 4, 1, fontModelLength1);
-                                            fileNalepke.SetCellStyle(kazalec + 4, 14, fontModelLength1);
-                                            fileNalepke.SetCellValue(kazalec + 4, 1, model); // other model's thab saturno, plutone, nettuno -> guma, type, model
-                                            fileNalepke.SetCellValue(kazalec + 4, 14, model);
-                                        }
-                                        if (model.Length >= 13 && model.Length < 17)
-                                        {
-                                            fileNalepke.SetCellStyle(kazalec + 4, 1, fontModelLength2);
-                                            fileNalepke.SetCellStyle(kazalec + 4, 14, fontModelLength2);
-                                            fileNalepke.SetCellValue(kazalec + 4, 1, model); // other model's thab saturno, plutone, nettuno -> guma, type, model
-                                            fileNalepke.SetCellValue(kazalec + 4, 14, model);
-                                        }
-                                    }
+                              fileNalepke.SetCellStyle(kazalec + 8, 1, odebeljeno);
+                              fileNalepke.SetCellStyle(kazalec + 8, 14, odebeljeno);
+                              fileNalepke.SetCellValue(kazalec + 8, 1, " ");
+                              fileNalepke.SetCellValue(kazalec + 8, 14, " ");
+                          }
+                          if (model == "EVO  PT  NETTUNO")
+                          {
+                              fileNalepke.SetCellValue(kazalec + 4, 1, "NETTUNO"); //nettuno check model and type
+                              fileNalepke.SetCellValue(kazalec + 4, 7, "E3");
+                              fileNalepke.SetCellValue(kazalec + 4, 14, "NETTUNO");
+                              fileNalepke.SetCellValue(kazalec + 4, 20, "E3");
+                              fileNalepke.SetCellStyle(kazalec + 8, 1, odebeljeno);
+                              fileNalepke.SetCellStyle(kazalec + 8, 14, odebeljeno);
+                              fileNalepke.SetCellValue(kazalec + 8, 1, " ");
+                              fileNalepke.SetCellValue(kazalec + 8, 14, " ");
+                              if (dodatek1 == "")
+                              {
+                                  fileNalepke.SetCellStyle(kazalec + 8, 1, odebeljeno);
+                                  fileNalepke.SetCellStyle(kazalec + 8, 14, odebeljeno);
+                                  fileNalepke.SetCellValue(kazalec + 8, 1, motoriNapis);
+                                  fileNalepke.SetCellValue(kazalec + 8, 14, motoriNapis);
+                              }
+                              if (lastnost2.Contains("T1") || lastnost2.Contains("T2") || lastnost2.Contains("T3") || lastnost2.Contains("T4") || lastnost2.Contains("T5"))
+                              {
+                                  fileNalepke.SetCellStyle(kazalec + 8, 1, odebeljeno);
+                                  fileNalepke.SetCellStyle(kazalec + 8, 14, odebeljeno);
+                                  fileNalepke.SetCellValue(kazalec + 8, 1, motoriNapis);
+                                  fileNalepke.SetCellValue(kazalec + 8, 14, motoriNapis);
+                              }
 
-                                        fileNalepke.SetCellValue(kazalec + 4, 7, vrsta);
-                                        fileNalepke.SetCellValue(kazalec + 4, 20, vrsta);
-                                        fileNalepke.SetCellValue(kazalec + 4, 6, guma);
-                                        fileNalepke.SetCellValue(kazalec + 4, 19, guma);
-                                    }
-
-                                if (mere.Length > 9) {
-                                    fileNalepke.SetCellStyle(kazalec + 6, 1, fontMereLength);
-                                    fileNalepke.SetCellStyle(kazalec + 6, 14, fontMereLength);
-                                    fileNalepke.SetCellValue(kazalec + 6, 1, mere); //sizes 
-                                    fileNalepke.SetCellValue(kazalec + 6, 14, mere);
-                                }
-                                else
-                                {
-                                    fileNalepke.SetCellValue(kazalec + 6, 1, mere); //sizes 
-                                    fileNalepke.SetCellValue(kazalec + 6, 14, mere);
-                                }
-                                    
-
-                                    if (oznakaModel != "") {
-                                    fileNalepke.SetCellValue(kazalec + 4, 5, oznakaModel);
-                                    fileNalepke.SetCellValue(kazalec + 4, 18, oznakaModel);
-                                    }
+                              fileNalepke.SetCellValue(kazalec + 6, 4, lastnost1); // lastnosti 
+                              fileNalepke.SetCellValue(kazalec + 6, 17, lastnost1);
 
 
-                                    kazalec += 11; // next sticker pointer
-                                }
+                          }
+                          if (model != "EVO   SATURNO" && model != "EVO  PT  PLUTONE" && model != "EVO  PT  NETTUNO")
+                          {
+                                  fileNalepke.SetCellValue(kazalec + 6, 4, lastnost1); // lastnosti 
+                                  fileNalepke.SetCellValue(kazalec + 6, 17, lastnost1);
 
-                        } */
-                    
+                              if (lastnost2.Contains("T1") || lastnost2.Contains("T2") || lastnost2.Contains("T3") || lastnost2.Contains("T4") || lastnost2.Contains("T5"))
+                              {
+                                  if (lastnost2.StartsWith("NCT3"))
+                                  {
+                                      if (lastnost1 == "")
+                                      {
+                                          fileNalepke.SetCellValue(kazalec + 6, 4, lastnost2);
+                                          fileNalepke.SetCellValue(kazalec + 6, 17, lastnost2);
+                                      }
+                                      else
+                                      {
+                                          MessageBox.Show("Nekje je napaka");
+                                      }
+                                  }
+                                  else
+                                  {
+                                      fileNalepke.SetCellStyle(kazalec + 8, 1, odebeljeno);
+                                      fileNalepke.SetCellStyle(kazalec + 8, 14, odebeljeno);
+                                      fileNalepke.SetCellValue(kazalec + 8, 1, motoriNapis + "    " + dodatek4);
+                                      fileNalepke.SetCellValue(kazalec + 8, 14, motoriNapis + "    " + dodatek4);
+                                  }
 
-                    string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); //get current user destop path
+                              }
+                              else
+                              {
+                                  fileNalepke.SetCellStyle(kazalec + 8, 1, odebeljeno);
+                                  fileNalepke.SetCellStyle(kazalec + 8, 14, odebeljeno);
+                                  fileNalepke.SetCellValue(kazalec + 8, 1, lastnost2 + "    "+ dodatek4);
+                                  fileNalepke.SetCellValue(kazalec + 8, 14, lastnost2 + "    " +dodatek4);
+                              }
+
+                              if (model.Length <= 9)
+                              {
+                                  fileNalepke.SetCellValue(kazalec + 4, 1, model); // other model's thab saturno, plutone, nettuno -> guma, type, model
+                                  fileNalepke.SetCellValue(kazalec + 4, 14, model);
+                              }
+                              else
+                              {
+                                  if (model.Length > 9 && model.Length < 13)
+                                  {
+                                      fileNalepke.SetCellStyle(kazalec + 4, 1, fontModelLength1);
+                                      fileNalepke.SetCellStyle(kazalec + 4, 14, fontModelLength1);
+                                      fileNalepke.SetCellValue(kazalec + 4, 1, model); // other model's thab saturno, plutone, nettuno -> guma, type, model
+                                      fileNalepke.SetCellValue(kazalec + 4, 14, model);
+                                  }
+                                  if (model.Length >= 13 && model.Length < 17)
+                                  {
+                                      fileNalepke.SetCellStyle(kazalec + 4, 1, fontModelLength2);
+                                      fileNalepke.SetCellStyle(kazalec + 4, 14, fontModelLength2);
+                                      fileNalepke.SetCellValue(kazalec + 4, 1, model); // other model's thab saturno, plutone, nettuno -> guma, type, model
+                                      fileNalepke.SetCellValue(kazalec + 4, 14, model);
+                                  }
+                              }
+
+                                  fileNalepke.SetCellValue(kazalec + 4, 7, vrsta);
+                                  fileNalepke.SetCellValue(kazalec + 4, 20, vrsta);
+                                  fileNalepke.SetCellValue(kazalec + 4, 6, guma);
+                                  fileNalepke.SetCellValue(kazalec + 4, 19, guma);
+                              }
+
+                          if (mere.Length > 9) {
+                              fileNalepke.SetCellStyle(kazalec + 6, 1, fontMereLength);
+                              fileNalepke.SetCellStyle(kazalec + 6, 14, fontMereLength);
+                              fileNalepke.SetCellValue(kazalec + 6, 1, mere); //sizes 
+                              fileNalepke.SetCellValue(kazalec + 6, 14, mere);
+                          }
+                          else
+                          {
+                              fileNalepke.SetCellValue(kazalec + 6, 1, mere); //sizes 
+                              fileNalepke.SetCellValue(kazalec + 6, 14, mere);
+                          }
+
+
+                              if (oznakaModel != "") {
+                              fileNalepke.SetCellValue(kazalec + 4, 5, oznakaModel);
+                              fileNalepke.SetCellValue(kazalec + 4, 18, oznakaModel);
+                              }
+
+
+                              kazalec += 11; // next sticker pointer
+                          }
+
+                  } */
+
+
+                //string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); //get current user destop path
     //                string shrani = pathPredloga + "\\nalepkeProgram\\" + datum + " NALEPKE.xlsx";
                     //string shrani = path + "\\" + datum + "NALEPKE.xlsx"; // format save name of file to save on user destop
                     //MessageBox.Show(shrani);
    //                 fileNalepke.SaveAs(shrani); //save sticker file
+
                     fileNarocila.CloseWithoutSaving(); //close order file
                     MessageBox.Show("Nalepke so kreirane."); //messsage shot for successful sticker create
 
