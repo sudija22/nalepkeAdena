@@ -44,6 +44,8 @@ namespace nalepkeAdena
         string packingFrame;
         string descriptionFrame;
         List < String > adsFrame = new List<String>();
+        string firstAdFrame;
+        string secondAdFrame;
         string ad1="";
         string ad2 = "";
         string ad3 = "";
@@ -181,6 +183,7 @@ namespace nalepkeAdena
                 //SLDocument fileNalepke = new SLDocument("template.xlsx");// open template file
                 string pathPredloga = "../";
                 string kocnoPredlogaPath = pathPredloga + "\\template.xlsx";
+                
                 // SLDocument fileNalepke = new SLDocument(kocnoPredlogaPath);
                 //SLDocument fileNalepkeOblecene = new SLDocument("predlogaOblecene.xlsx");
                 //     SLStyle fontMereLength = fileNalepke.CreateStyle();
@@ -217,8 +220,8 @@ namespace nalepkeAdena
                     formatiranDatum += leto; */
 
 
-                     //MessageBox.Show(steviloStrani.ToString());
-                     SLWorksheetStatistics stats = fileNarocila.GetWorksheetStatistics(); // stats for order file, to get last row
+                //MessageBox.Show(steviloStrani.ToString());
+                SLWorksheetStatistics stats = fileNarocila.GetWorksheetStatistics(); // stats for order file, to get last row
 
                 
                 
@@ -230,6 +233,8 @@ namespace nalepkeAdena
                 
                 for (int i = 3; i <= stats.NumberOfRows; i++)
                 {
+                    Console.WriteLine(stats.NumberOfRows);
+                    Console.WriteLine(i);
                     string mess = "halooo";
                     ordineFrame = fileNarocila.GetCellValueAsString(i, 4);
                     rifFrame = fileNarocila.GetCellValueAsString(i, 16);
@@ -241,6 +246,27 @@ namespace nalepkeAdena
                     Console.WriteLine(stickerDate);
 
                     modelFrame = fileNarocila.GetCellValueAsString(i, 6);
+                    if(modelFrame=="EVO   SATURNO")
+                    {
+                        modelFrame = "SATURNO";
+                    }
+                    if (modelFrame == "EVO   PLUTONE")
+                    {
+                        modelFrame = "PLUTONE";
+                    }
+                    if (modelFrame == "EVO   NETUNO")
+                    {
+                        modelFrame = "NETTUNO";
+                    }
+                    if (modelFrame == "EVO  PT  NETTUNO")
+                    {
+                        modelFrame = "NETTUNO";
+                    }
+                    if (modelFrame == "EVO  PT  PLUTONE")
+                    {
+                        modelFrame = "PLUTONE";
+                    }
+                    
                     typeFrame = fileNarocila.GetCellValueAsString(i, 7);
                     sizeXFrame = fileNarocila.GetCellValueAsString(i, 9);
                     sizeYFrame = fileNarocila.GetCellValueAsString(i, 10);
@@ -252,10 +278,12 @@ namespace nalepkeAdena
                     personalizationFrame = fileNarocila.GetCellValueAsString(i, 5);
                     legsFrame = fileNarocila.GetCellValueAsString(i, 19);
                     descriptionFrame = fileNarocila.GetCellValueAsString(i, 17);
-                    
+                    firstAdFrame = fileNarocila.GetCellValueAsString(i, 13);
+                    secondAdFrame = fileNarocila.GetCellValueAsString(i, 14);
+
                     Console.WriteLine(mess);
                     // Add some text to file    
-                    
+                   adsFrame.Clear();
                     if (packingFrame == "C")
                     {
                         adsFrame.Add("CONCARTONE");
@@ -273,23 +301,45 @@ namespace nalepkeAdena
                     {
                         adsFrame.Add(descriptionFrame);
                     } //napoljnen seznam ads
-                    for (i = 0; i < adsFrame.Count; i++)
+                    if (firstAdFrame != "" || firstAdFrame != null)
                     {
-                        if (ad1.Length+adsFrame[i].Length <= 16)
+                        adsFrame.Add(firstAdFrame);
+                    } //napoljnen seznam ads
+                    if (secondAdFrame != "" || secondAdFrame != null)
+                    {
+                        adsFrame.Add(secondAdFrame);
+                    } //napoljnen seznam ads
+
+
+                    Console.WriteLine(adsFrame);
+                    for (int k = 0; k < adsFrame.Count; k++)
+                    {
+
+                        if (ad1.Length+adsFrame[k].Length <= 16)
                         {
-                            ad1 += adsFrame[i];
+                            ad1 = ad1 + adsFrame[k] + " ";
                         }
-                        else if (ad2.Length + adsFrame[i].Length <= 16)
+                        else
                         {
-                            ad2 += adsFrame[i];
+                            if (ad2.Length + adsFrame[k].Length <= 16)
+                            {
+                                ad2 = ad2 + adsFrame[k] + " ";
+                            }
+                            else
+                            {
+                                if (ad3.Length + adsFrame[k].Length <= 28)
+                                {
+                                    ad3 = ad3 + adsFrame[k] + " ";
+
+                                }
+                            }
                         }
-                        else if(ad3.Length + adsFrame[i].Length <= 28)
-                        {
-                            ad3 += adsFrame[i];
-                        }
+
                     }
 
-                   
+                    SLStyle odebeljeno = frameLabelFinalFile.CreateStyle();
+                    odebeljeno.Font.Bold = true;
+                    odebeljeno.Font.FontName = "Arial CE";
                     for (int j = 1; j <= piecesFrame; j++)
                     {
                         //prva vrstica
@@ -310,18 +360,41 @@ namespace nalepkeAdena
 
 
                         //tretja vrstica
+                        frameLabelFinalFile.SetCellValue(stevec, 7, mountTypeFrame);
+                        frameLabelFinalFile.SetCellValue(stevec, 7 + 13, mountTypeFrame);
+                        if (mountTypeFrame == "CB")
+                        {
+                            frameLabelFinalFile.SetCellValue(stevec, 1, "CON FORI X MECCANISMO CONFORT");
+                            frameLabelFinalFile.SetCellValue(stevec, 1 + 13,"CON FORI X MECCANISMO CONFORT");
+                        }
                         stevec++;
 
                         //cetrta vrstica 
+                        
                         stevec++;
 
                         //peta vrstica
-                        frameLabelFinalFile.SetCellValue(stevec, 1, modelFrame);
+                        SLStyle fontMereLength = frameLabelFinalFile.CreateStyle();
+                        fontMereLength.Font.FontName = "Arial CE";
+                        if (modelFrame.Length > 9)
+                        {
+                            fontMereLength.Font.FontSize = 14;
+                            frameLabelFinalFile.SetCellValue(stevec, 1, modelFrame);
+                            frameLabelFinalFile.SetCellStyle(stevec, 1, fontMereLength);
+                            frameLabelFinalFile.SetCellValue(stevec, 1 + 13, modelFrame);
+                            frameLabelFinalFile.SetCellStyle(stevec, 1+13, fontMereLength);
+                            fontMereLength.Font.FontSize = 16;
+                        }
+                        else
+                        {
+                            frameLabelFinalFile.SetCellValue(stevec, 1, modelFrame);
+                            frameLabelFinalFile.SetCellValue(stevec, 1 + 13, modelFrame);
+                        }
                         frameLabelFinalFile.SetCellValue(stevec, 7, typeFrame);
                         frameLabelFinalFile.SetCellValue(stevec, 6, vVFrame);
-                        frameLabelFinalFile.SetCellValue(stevec, 1 + 13, modelFrame);
                         frameLabelFinalFile.SetCellValue(stevec, 7 + 13, typeFrame);
                         frameLabelFinalFile.SetCellValue(stevec, 6 + 13, vVFrame);
+                        Console.WriteLine(fontMereLength.Font.FontSize);
                         stevec++;
 
                         //sesta vrstica
@@ -340,13 +413,15 @@ namespace nalepkeAdena
                         stevec++;
                         frameLabelFinalFile.SetCellValue(stevec, 1, ad3);
                         frameLabelFinalFile.SetCellValue(stevec, 1 + 13, ad3);
+                        frameLabelFinalFile.SetCellStyle(stevec, 1, odebeljeno);
+                        frameLabelFinalFile.SetCellStyle(stevec, 1+13, odebeljeno);
 
                         //to bos izbrisal drugic
                         stevec = stevec + 3;
                         
                         Console.WriteLine("nekar me");
                     }
-
+                    ad1 = ad2 = ad3 = "";
 
                 }
                 
