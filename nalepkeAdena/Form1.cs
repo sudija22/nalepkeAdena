@@ -43,7 +43,10 @@ namespace nalepkeAdena
         string personalizationFrame;
         string packingFrame;
         string descriptionFrame;
-        string[] adsFrame;
+        List < String > adsFrame = new List<String>();
+        string ad1="";
+        string ad2 = "";
+        string ad3 = "";
         string modelFrame;
         string typeFrame; //1,2,3
         string sizeXFrame;
@@ -255,23 +258,38 @@ namespace nalepkeAdena
                     
                     if (packingFrame == "C")
                     {
-                        adsFrame = new string[]{ "CONCARTONE" };
+                        adsFrame.Add("CONCARTONE");
                     }// c concartone
                     
                     if(motorFrame=="T2" || motorFrame=="T3" || motorFrame=="T6" || motorFrame == "T56")
                     {
-                        adsFrame[1] = "MOTORE MONTATA";
+                        adsFrame.Add("MOTORE MONTATA");
                     }
                     if (legsFrame != "" || legsFrame != null)
                     {
-                        adsFrame[2] = legsFrame;
+                        adsFrame.Add(legsFrame);
                     }
-                    
                     if (descriptionFrame != "" || descriptionFrame != null)
                     {
-                        adsFrame[3] = descriptionFrame;
+                        adsFrame.Add(descriptionFrame);
                     } //napoljnen seznam ads
-                    
+                    for (i = 0; i < adsFrame.Count; i++)
+                    {
+                        if (ad1.Length+adsFrame[i].Length <= 16)
+                        {
+                            ad1 += adsFrame[i];
+                        }
+                        else if (ad2.Length + adsFrame[i].Length <= 16)
+                        {
+                            ad2 += adsFrame[i];
+                        }
+                        else if(ad3.Length + adsFrame[i].Length <= 28)
+                        {
+                            ad3 += adsFrame[i];
+                        }
+                    }
+
+                   
                     for (int j = 1; j <= piecesFrame; j++)
                     {
                         //prva vrstica
@@ -312,10 +330,19 @@ namespace nalepkeAdena
                         //sedma vrstica
                         frameLabelFinalFile.SetCellValue(stevec, 1, sizeXFrame + "X" + sizeYFrame);
                         frameLabelFinalFile.SetCellValue(stevec, 1 + 13, sizeXFrame + "X" + sizeYFrame);
-
+                        frameLabelFinalFile.SetCellValue(stevec, 4, ad1);
+                        frameLabelFinalFile.SetCellValue(stevec, 4 + 13, ad1);
+                        //osma vrstica
+                        stevec++;
+                        frameLabelFinalFile.SetCellValue(stevec, 4, ad2);
+                        frameLabelFinalFile.SetCellValue(stevec, 4 + 13, ad2);
+                        //deveta vrstica
+                        stevec++;
+                        frameLabelFinalFile.SetCellValue(stevec, 1, ad3);
+                        frameLabelFinalFile.SetCellValue(stevec, 1 + 13, ad3);
 
                         //to bos izbrisal drugic
-                        stevec = stevec + 5;
+                        stevec = stevec + 3;
                         
                         Console.WriteLine("nekar me");
                     }
