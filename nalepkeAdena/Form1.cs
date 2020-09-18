@@ -32,6 +32,7 @@ namespace nalepkeAdena
 
         string datoteka = null;
         string ordineFrame;
+        string barCodeTest = "";
         string stickerDate;
         string deliveyCompanyFrame;
         string vVFrame;
@@ -421,26 +422,30 @@ namespace nalepkeAdena
                         frameLabelFinalFile.SetCellStyle(stevec, 1 + 13, odebeljeno);
                         //desetavrstica
                         
-                        string barCodeTest = ordineFrame+"-"+italCodeFrame + "-" + modelFrame + "-" + "RETE";
+                        //barCodeTest = ordineFrame+"-"+italCodeFrame + "-" + modelFrame + "-" + "RETE";
                         try
                         {
                             Zen.Barcode.Code128BarcodeDraw brCode = Zen.Barcode.BarcodeDrawFactory.Code128WithChecksum;
-                            var image = brCode.Draw(barCodeTest, 25); // številka pomeni višino, širina je odvisna od števila znakov // kako bomo pozicionirali
+                            barCodeTest = ordineFrame + "-" + italCodeFrame + "-" + modelFrame + "-" + "RETE";
+                            var image = brCode.Draw(barCodeTest, 30); // številka pomeni višino, širina je odvisna od števila znakov // kako bomo pozicionirali
                             image.Save("frameBarCode.gif");
+                            SLPicture pic = new SLPicture("frameBarCode.gif");
+                            pic.SetPosition(stevec, 1);
+                            frameLabelFinalFile.InsertPicture(pic);
+                            pic.SetPosition(stevec, 14);
+                            frameLabelFinalFile.InsertPicture(pic);
+
+                            //frameLabelFinalFile.Save();
+                            barCodeTest = "";
+                            Console.WriteLine(modelFrame);
+                            stevec++;
 
                         }
                         catch
                         {
 
                         }
-                        SLPicture pic = new SLPicture("frameBarCode.gif");
-                        pic.SetPosition(stevec, 1);
-                        frameLabelFinalFile.InsertPicture(pic);
-                        pic.SetPosition(stevec, 14);
-
-                        frameLabelFinalFile.InsertPicture(pic);
-
-                        stevec++;
+                        
                         //to bos izbrisal drugic
                         stevec = stevec + 2;
 
