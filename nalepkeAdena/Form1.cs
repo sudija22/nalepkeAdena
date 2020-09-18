@@ -176,7 +176,7 @@ namespace nalepkeAdena
             if (checkFileFormat(sender, e, datoteka)) { 
              
                 SLDocument fileNarocila = new SLDocument(datoteka); //open order file
-                //SLDocument fileNalepke = new SLDocument("template.xlsx");// open template file
+
                 string pathPredloga = "../";
                 string kocnoPredlogaPath = pathPredloga + "\\template.xlsx";
                 
@@ -185,7 +185,6 @@ namespace nalepkeAdena
 
                 
                 
-                //SLDocument frameLabelFinalFile = new SLDocument("C:\\Users\\tomaz\\Desktop\\Novica.xlsx"); //open order file
                 
                 SLDocument frameLabelFinalFile = new SLDocument("template.xlsx"); //open order file
                 
@@ -488,7 +487,7 @@ namespace nalepkeAdena
 
 
                 
-                //SLDocument fileNalepke = new SLDocument("template.xlsx");// open template file
+
                 string pathPredloga = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                 string kocnoPredlogaPath = pathPredloga + "\\nalepkeProgram\\nalepke.xlsx";
                 
