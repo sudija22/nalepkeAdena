@@ -9,24 +9,35 @@ using System.Windows.Forms;
 using System.IO;
 using SpreadsheetLight;
 using System.Collections;
-
+using System.Text.RegularExpressions;
+using SpreadsheetLight.Drawing;
+using System.Runtime.InteropServices;
 
 namespace nalepkeAdena
 {
     public partial class Form1 : Form
     {
 
-
+        //bed variables
+        string italianNumBed;
+        string bedOrderNumLocal;
+        string bedOrderNumber;
         string modelBed;
         string sizeXBed;
         string sizeYBed;
-        string quantityBed;
-        double bedRowNum;
-        string bedOrderNumLocal;
-        string bedOrderNumber;
         string bedDeliveryCompany;
         string bedRif;
         string bedDescription;
+        string quantityBed;
+        public string headModel;
+        public string baseModel;
+        public string bedDescription1;
+        public string bedDescription2;
+        public string bedOtherAdds;
+        public string fabricType;
+        public string fabricColor;
+
+
 
 
 
@@ -661,39 +672,15 @@ namespace nalepkeAdena
         {
             if (checkFileFormat(sender, e, datoteka))
             {
-                SLDocument fileBedList = new SLDocument(datoteka); //open order file
-                SLWorksheetStatistics stats = fileBedList.GetWorksheetStatistics(); // stats for order file, to get last row
-                int lastRowBedIndex = stats.NumberOfRows;
 
-                Console.WriteLine(lastRowBedIndex);
-
-                for (int i = 4 ; i<lastRowBedIndex; i++)
-                {
-                    bedRowNum = fileBedList.GetCellValueAsDouble(i, 1);
-                    bedOrderNumLocal = fileBedList.GetCellValueAsString(i, 2);
-                    bedOrderNumber = fileBedList.GetCellValueAsString(i, 3);
-                    modelBed = fileBedList.GetCellValueAsString(i, 5);
-                    sizeXBed = fileBedList.GetCellValueAsString(i, 8);
-                    sizeYBed = fileBedList.GetCellValueAsString(i, 9);
-                    bedDeliveryCompany = fileBedList.GetCellValueAsString(i, 14);
-                    bedRif = fileBedList.GetCellValueAsString(i, 15);
-                    bedDescription = fileBedList.GetCellValueAsString(i, 16);
-                    quantityBed = fileBedList.GetCellValueAsString(i, 17);
-
-
-                    Console.WriteLine(modelBed+bedOrderNumber);
-                }
-
-
-
-
-                
+                //TODO PREVERI ALI JE UPORABLJA KDO DRUG
+                SLDocument fileBedOrder = new SLDocument(datoteka); //open order file
                 Console.WriteLine("tukaj");
-                Console.WriteLine(datoteka);
-                //SLDocument fileNalepke = new SLDocument("template.xlsx");// open template file
-                string pathPredloga = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                string kocnoPredlogaPath = pathPredloga + "\\nalepkeProgram\\nalepke.xlsx";
-                //SLDocument fileNalepke = new SLDocument(kocnoPredlogaPath);
+                Console.WriteLine("File path:" + datoteka);
+                Console.WriteLine(fileBedOrder.GetCellValueAsString(1, 1));
+                string pathTemplateBed = "../";
+                string endPathTemplateBed = pathTemplateBed + "\\template.xlsx";
+                // SLDocument fileNalepke = new SLDocument(kocnoPredlogaPath);
                 //SLDocument fileNalepkeOblecene = new SLDocument("predlogaOblecene.xlsx");
                 //     SLStyle fontMereLength = fileNalepke.CreateStyle();
                 //    SLStyle fontModelLength1 = fileNalepke.CreateStyle();
@@ -730,8 +717,266 @@ namespace nalepkeAdena
 
 
                 //MessageBox.Show(steviloStrani.ToString());
+                SLWorksheetStatistics statsBedList = fileBedOrder.GetWorksheetStatistics(); // stats for order file, to get last row
 
 
+
+                //SLDocument frameLabelFinalFile = new SLDocument("C:\\Users\\tomaz\\Desktop\\Novica.xlsx"); //open order file
+
+                SLDocument bedFinalLabelFile = new SLDocument("templateBed.xlsx"); //open order file
+
+                int bedGlobalIndex = 2;
+
+                DateTime dateToday = DateTime.Today;
+
+                string dateMonth = dateToday.ToString().Split('/')[1];
+                string dateYear = dateToday.ToString().Split('/')[2].Split(' ')[0].Substring(2, 2);
+                for (int i = 4; i < statsBedList.NumberOfRows; i++)
+                {
+                    string mess = "tukej začne brat podatke";
+
+
+                    
+
+                    Console.WriteLine(dateYear);
+
+                    italianNumBed = fileBedOrder.GetCellValueAsString(i, 1);
+                    bedOrderNumLocal = fileBedOrder.GetCellValueAsString(i, 2);
+                    bedOrderNumber = fileBedOrder.GetCellValueAsString(i, 3);
+                    modelBed = fileBedOrder.GetCellValueAsString(i, 5);
+                    sizeXBed = fileBedOrder.GetCellValueAsString(i, 8);
+                    sizeYBed = fileBedOrder.GetCellValueAsString(i, 9);
+                    bedDeliveryCompany = fileBedOrder.GetCellValueAsString(i, 14);
+                    bedRif = fileBedOrder.GetCellValueAsString(i, 15);
+                    bedDescription = fileBedOrder.GetCellValueAsString(i, 16);
+                    quantityBed = fileBedOrder.GetCellValueAsString(i, 18);
+
+                    Console.WriteLine("NEKAJ PA JE" + quantityBed);
+
+
+
+
+                    RegexOptions options = RegexOptions.None;
+                    Regex regex = new Regex("[ ]{2,}", options);
+                    modelBed = regex.Replace(modelBed, " ");
+
+
+
+
+                    DateTime today = DateTime.Today;
+                    string[] collection = today.ToString("d").Split('.');
+                    //stickerDate = (String.Format("{0}{1}", collection[0], collection[1].Trim())).Trim();
+                    Console.WriteLine(stickerDate);
+
+
+                    Console.WriteLine(mess);
+                    // Add some text to file    
+
+                    
+                    if (!bedOrderNumber.Equals("")) {
+
+
+                        //popravi ce je samo testat
+                        string[] splitBedModel = modelBed.Split(' ');
+                        if(splitBedModel.Length == 2)
+                        {
+                            headModel = splitBedModel[0];
+                            baseModel = splitBedModel[1];
+                        }
+                        else
+                        {
+                            headModel = splitBedModel[0];
+                        }
+
+                        int bedQuantityINT = Int32.Parse(quantityBed);
+                        for (int j = 1; j <= bedQuantityINT; j++)
+                    {
+
+
+
+
+                        //first row
+                        bedFinalLabelFile.SetCellValue(bedGlobalIndex, 1, "ORDINE:");
+                            bedFinalLabelFile.SetCellValue(bedGlobalIndex, 14, "ORDINE:");
+                            bedFinalLabelFile.SetCellValue(bedGlobalIndex, 3, bedOrderNumber);
+                            bedFinalLabelFile.SetCellValue(bedGlobalIndex, 16, bedOrderNumber);
+                            bedFinalLabelFile.SetCellValue(bedGlobalIndex, 5, bedDeliveryCompany);
+                            bedFinalLabelFile.SetCellValue(bedGlobalIndex, 18, bedDeliveryCompany);
+                            bedFinalLabelFile.SetCellValue(bedGlobalIndex, 6, bedRif);
+                            bedFinalLabelFile.SetCellValue(bedGlobalIndex, 19, bedRif);
+                            bedFinalLabelFile.SetCellValue(bedGlobalIndex, 7, dateMonth + "/" + dateYear);
+                            bedFinalLabelFile.SetCellValue(bedGlobalIndex, 20, dateMonth + "/" + dateYear);
+                            bedGlobalIndex++;
+
+                            //second row
+                            bedFinalLabelFile.SetCellValue(bedGlobalIndex, 1, headModel);
+                            bedFinalLabelFile.SetCellValue(bedGlobalIndex, 14, headModel);
+                            bedFinalLabelFile.SetCellValue(bedGlobalIndex, 5, sizeXBed + "X" + sizeYBed);
+                            bedFinalLabelFile.SetCellValue(bedGlobalIndex, 18, sizeXBed + "X" + sizeYBed);
+                            bedFinalLabelFile.SetCellValue(bedGlobalIndex, 7, baseModel);
+                            bedFinalLabelFile.SetCellValue(bedGlobalIndex, 20, baseModel);
+                            bedGlobalIndex++;
+
+                            //3th row
+
+                            bedGlobalIndex++;
+
+                            //4th row
+
+                            Console.WriteLine("BASE MODEL" + baseModel);
+                            switch (baseModel)
+                            {
+                                case "COB3":
+                                    bedDescription1 = "ALTO SAGOMATO 3 LATI";
+                                    bedDescription2 = "ERGOCOMFORT" + " " + bedOtherAdds;
+                                    break;
+                                case "COA3":
+                                    bedDescription1 = "ALTO DRITTO 3 LATI";
+                                    bedDescription2 = "ERGOCOMFORT" + " " + bedOtherAdds;
+                                    break;
+                                case "NCA3":
+                                    bedDescription1 = "ALTO DRITTO 3 LATI";
+                                    bedDescription2 = "NON CONT." + " " + bedOtherAdds;
+                                    break;
+                                case "SPA3":
+                                    bedDescription1 = "ALTO DRITTO 3 LATI";
+                                    bedDescription2 = "SPACE" + " " + bedOtherAdds;
+                                    break;
+                                case "NCT3":
+                                    bedDescription1 = "TRAPUNTATO BASSO 3 LATI";
+                                    bedDescription2 = bedOtherAdds;
+                                    break;
+                                case "NCF3":
+                                    bedDescription1 = "TESSILE BASSO 3 LATI";
+                                    bedDescription2 = bedOtherAdds;
+                                    break;
+                                case "NCS3":
+                                    bedDescription1 = "TESSILE FASCIA SLIM 3 LATI";
+                                    bedDescription2 = bedOtherAdds;
+                                    break;
+                                case "":
+                                    bedDescription1 = bedDescription1 + "";
+                                    break;
+                                default:
+                                    bedDescription2 = bedOtherAdds;
+                                    break;
+
+                            }
+
+                            bedFinalLabelFile.SetCellValue(bedGlobalIndex, 7, bedOrderNumLocal);
+                            bedFinalLabelFile.SetCellValue(bedGlobalIndex, 20, bedOrderNumLocal);
+                            bedFinalLabelFile.SetCellValue(bedGlobalIndex, 1, bedDescription1);
+                            bedFinalLabelFile.SetCellValue(bedGlobalIndex, 14, bedDescription1);
+
+
+                            bedGlobalIndex++;
+
+                            //5th row
+
+                            bedGlobalIndex++;
+
+                            //6th row
+                            //tu maš vse dodateke
+                            string [] descriptionSplit = bedDescription.Split(',');
+                            fabricType = descriptionSplit[0].Split(' ')[0];
+                            fabricColor = descriptionSplit[0].Split(' ')[1];
+
+                            Console.WriteLine("OPIS" + bedDescription + "   fabricType and color" + fabricType + fabricColor);
+
+                            Console.WriteLine(fabricColor);
+                            if (fabricType.Equals("ECOPELLE"))
+                            {
+                                switch (fabricColor)
+                                {
+                                    case "001":
+                                        fabricType = "ECOPELLE VERNA BIANCO";
+                                        break;
+                                    case "014":
+                                        fabricType = "ECOPELLE VERNA BEIGE";
+                                        break;
+                                    case "032":
+                                        fabricType = "ECOPELLE VERNA FANGO";
+                                        break;
+                                    case "033":
+                                        fabricType = "ECOPELLE VERNA GRIGIO CHIARO";
+                                        break;
+                                    case "037":
+                                        fabricType = "ECOPELLE VERNA TORTORA";
+                                        break;
+                                    case "342":
+                                        fabricType = "ECOPELLE VERNA MARRONE";
+                                        break;
+                                    case "505":
+                                        fabricType = "ECOPELLE VERNA BLU";
+                                        break;
+                                    case "606":
+                                        fabricType = "ECOP VERNA GRIGIO SC.";
+                                        break;
+                                }
+                            }
+
+                            bedFinalLabelFile.SetCellValue(bedGlobalIndex, 1, fabricType);
+                            bedFinalLabelFile.SetCellValue(bedGlobalIndex, 14, fabricType);
+                            bedFinalLabelFile.SetCellValue(bedGlobalIndex, 7, fabricColor);
+                            bedFinalLabelFile.SetCellValue(bedGlobalIndex, 20, fabricColor);
+
+                            bedGlobalIndex++;
+
+                            //7th row
+                            bedGlobalIndex++;
+
+                            //8th row
+                            bedFinalLabelFile.SetCellValue(bedGlobalIndex, 1, bedDescription2);
+                            bedFinalLabelFile.SetCellValue(bedGlobalIndex, 14, bedDescription2);
+                            bedGlobalIndex++;
+
+                            //9th row
+                            
+                            string barCodeTest = "Krnekaj-sada";
+                            try
+                            {
+                                Zen.Barcode.Code128BarcodeDraw brCode = Zen.Barcode.BarcodeDrawFactory.Code128WithChecksum;
+                                var image = brCode.Draw(barCodeTest, 20); // številka pomeni višino, širina je odvisna od števila znakov // kako bomo pozicionirali
+                                image.Save("drek.gif");
+
+                            }
+                            catch
+                            {
+
+                            }
+
+                            
+
+
+
+                            SLPicture pic = new SLPicture("drek.gif");
+                            pic.SetPosition(bedGlobalIndex, 1);
+                            bedFinalLabelFile.InsertPicture(pic);
+                            pic.SetPosition(bedGlobalIndex, 14);
+                           
+                           bedFinalLabelFile.InsertPicture(pic);
+
+
+                            bedGlobalIndex++;
+                            bedGlobalIndex++;
+
+
+
+                            Console.WriteLine("nekar me");
+                    }
+                }
+
+
+                }
+
+                DateTime thisDay = DateTime.Today;
+                Console.WriteLine(thisDay.ToString("d"));
+                string path = "./"; //get current path
+                string shrani = path + "\\" + thisDay.ToString("d") + "NALEPKE.xlsx"; // format save name of file to save on user destop
+                MessageBox.Show(shrani);
+               bedFinalLabelFile.SaveAs("./1616.xlsx"); //save sticker file
+
+                //frameLabelFinalFile.CloseWithoutSaving(); //close order file
 
 
                 //  if (vrsticaCheck != "")
@@ -978,18 +1223,20 @@ namespace nalepkeAdena
                   } */
 
 
-                 //get current user destop path
-                                                                                            //                string shrani = pathPredloga + "\\nalepkeProgram\\" + datum + " NALEPKE.xlsx";
-                                                                                            //string shrani = path + "\\" + datum + "NALEPKE.xlsx"; // format save name of file to save on user destop
-                                                                                            //MessageBox.Show(shrani);
-                                                                                            //                 fileNalepke.SaveAs(shrani); //save sticker file
-               // fileNarocila.CloseWithoutSaving(); //close order file
+                //string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); //get current user destop path
+                //                string shrani = pathPredloga + "\\nalepkeProgram\\" + datum + " NALEPKE.xlsx";
+                //string shrani = path + "\\" + datum + "NALEPKE.xlsx"; // format save name of file to save on user destop
+                //MessageBox.Show(shrani);
+                //                 fileNalepke.SaveAs(shrani); //save sticker file
+
+                fileBedOrder.CloseWithoutSaving(); //close order file
                 MessageBox.Show("Nalepke so kreirane."); //messsage shot for successful sticker create
 
 
 
             }
         }
+         
     }
 }
 

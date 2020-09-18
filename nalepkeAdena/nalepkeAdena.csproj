@@ -118,6 +118,7 @@
     </Compile>
     <None Include="material\16. 09. 2020NALEPKE.xlsx" />
     <None Include="material\template.xlsx" />
+    <None Include="material\templateBed.xlsx" />
     <None Include="nalepkeAdena_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
