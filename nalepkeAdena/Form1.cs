@@ -183,9 +183,6 @@ namespace nalepkeAdena
             if (checkFileFormat(sender, e, datoteka)) { 
              
                 SLDocument fileNarocila = new SLDocument(datoteka); //open order file
-                Console.WriteLine("tukaj");
-                Console.WriteLine(datoteka);
-                Console.WriteLine(fileNarocila.GetCellValueAsString(1, 1));
                 //SLDocument fileNalepke = new SLDocument("template.xlsx");// open template file
                 string pathPredloga = "../";
                 string kocnoPredlogaPath = pathPredloga + "\\template.xlsx";
@@ -1220,16 +1217,11 @@ namespace nalepkeAdena
                               kazalec += 11; // next sticker pointer
                           }
 
-                  } */
+                
 
-
-                //string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); //get current user destop path
-                //                string shrani = pathPredloga + "\\nalepkeProgram\\" + datum + " NALEPKE.xlsx";
-                //string shrani = path + "\\" + datum + "NALEPKE.xlsx"; // format save name of file to save on user destop
-                //MessageBox.Show(shrani);
-                //                 fileNalepke.SaveAs(shrani); //save sticker file
-
-                fileBedOrder.CloseWithoutSaving(); //close order file
+                string pathPredloga = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                string kocnoPredlogaPath = pathPredloga + "\\nalepkeProgram\\nalepke.xlsx";
+                
                 MessageBox.Show("Nalepke so kreirane."); //messsage shot for successful sticker create
 
 
