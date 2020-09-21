@@ -234,6 +234,13 @@ namespace nalepkeAdena
 
                 SLDocument frameLabelFinalFile = new SLDocument("template.xlsx"); //open order file
 
+                DateTime thisDay = DateTime.Today;
+                Console.WriteLine(thisDay.ToString("d"));
+                string path = "./"; //get current path
+                string shrani = path + "\\" + thisDay.ToString("d") + "NALEPKE.xlsx"; // format save name of file to save on user destop
+                MessageBox.Show(shrani);
+                frameLabelFinalFile.SaveAs(shrani); //save sticker file
+
                 int stevec = 2;
 
                 for (int i = 3; i <= stats.NumberOfRows; i++)
@@ -342,11 +349,16 @@ namespace nalepkeAdena
 
                     }
 
-                    SLStyle odebeljeno = frameLabelFinalFile.CreateStyle();
-                    odebeljeno.Font.Bold = true;
-                    odebeljeno.Font.FontName = "Arial CE";
+                    
                     for (int j = 1; j <= piecesFrame; j++)
                     {
+                       frameLabelFinalFile = new SLDocument(shrani);
+
+                        SLStyle odebeljeno = frameLabelFinalFile.CreateStyle();
+                        odebeljeno.Font.Bold = true;
+                        odebeljeno.Font.FontName = "Arial CE";
+
+
                         //prva vrstica
                         frameLabelFinalFile.SetCellValue(stevec, 1, "ORDINE:");
                         frameLabelFinalFile.SetCellValue(stevec, 3, ordineFrame);
@@ -440,6 +452,8 @@ namespace nalepkeAdena
                             Console.WriteLine(modelFrame);
                             stevec++;
 
+                            frameLabelFinalFile.Save();
+
                         }
                         catch
                         {
@@ -455,12 +469,14 @@ namespace nalepkeAdena
 
                 }
 
+                /*
                 DateTime thisDay = DateTime.Today;
                 Console.WriteLine(thisDay.ToString("d"));
                 string path = "./"; //get current path
                 string shrani = path + "\\" + thisDay.ToString("d") + "NALEPKE.xlsx"; // format save name of file to save on user destop
                 MessageBox.Show(shrani);
-                frameLabelFinalFile.SaveAs(shrani); //save sticker file
+                */
+         //       frameLabelFinalFile.SaveAs(shrani); //save sticker file
 
                 //frameLabelFinalFile.CloseWithoutSaving(); //close order file
 
