@@ -45,6 +45,9 @@ namespace nalepkeAdena
         string packingFrame;
         string descriptionFrame;
         List<String> adsFrame = new List<String>();
+        List<Image> images = new List<Image>();
+        int barCodeIndex=11;
+        int barCounter = 0;
         string firstAdFrame;
         string secondAdFrame;
         string ad1 = "";
@@ -233,13 +236,15 @@ namespace nalepkeAdena
                 //SLDocument frameLabelFinalFile = new SLDocument("C:\\Users\\tomaz\\Desktop\\Novica.xlsx"); //open order file
 
                 SLDocument frameLabelFinalFile = new SLDocument("template.xlsx"); //open order file
-
                 DateTime thisDay = DateTime.Today;
-                Console.WriteLine(thisDay.ToString("d"));
                 string path = "./"; //get current path
-                string shrani = path + "\\" + thisDay.ToString("d") + "NALEPKE.xlsx"; // format save name of file to save on user destop
-                MessageBox.Show(shrani);
-                frameLabelFinalFile.SaveAs(shrani); //save sticker file
+                string shrani = path + "\\" + thisDay.ToString("d") + "NALEPKE.xlsx";
+                /*  DateTime thisDay = DateTime.Today;
+                  Console.WriteLine(thisDay.ToString("d"));
+                  string path = "./"; //get current path
+                  string shrani = path + "\\" + thisDay.ToString("d") + "NALEPKE.xlsx"; // format save name of file to save on user destop
+                  MessageBox.Show(shrani);
+                  frameLabelFinalFile.SaveAs(shrani); //save sticker file */
 
                 int stevec = 2;
 
@@ -352,7 +357,7 @@ namespace nalepkeAdena
                     
                     for (int j = 1; j <= piecesFrame; j++)
                     {
-                       frameLabelFinalFile = new SLDocument(shrani);
+                      // frameLabelFinalFile = new SLDocument(shrani);
 
                         SLStyle odebeljeno = frameLabelFinalFile.CreateStyle();
                         odebeljeno.Font.Bold = true;
@@ -439,20 +444,26 @@ namespace nalepkeAdena
                         {
                             Zen.Barcode.Code128BarcodeDraw brCode = Zen.Barcode.BarcodeDrawFactory.Code128WithChecksum;
                             barCodeTest = ordineFrame + "-" + italCodeFrame + "-" + modelFrame + "-" + "RETE";
-                            var image = brCode.Draw(barCodeTest, 30); // številka pomeni višino, širina je odvisna od števila znakov // kako bomo pozicionirali
-                            image.Save("frameBarCode.gif");
+                            Image image = brCode.Draw(barCodeTest, 30); // številka pomeni višino, širina je odvisna od števila znakov // kako bomo pozicionirali
+                                                                        // image.Save("frameBarCode.gif");
+                            images.Add(image);
+
+                            images[barCounter].Save("frameBarCode.gif");
                             SLPicture pic = new SLPicture("frameBarCode.gif");
                             pic.SetPosition(stevec, 1);
                             frameLabelFinalFile.InsertPicture(pic);
                             pic.SetPosition(stevec, 14);
                             frameLabelFinalFile.InsertPicture(pic);
+                            barCounter++;
+
+                            //barCodeIndex = barCodeIndex + 9;
 
                             //frameLabelFinalFile.Save();
                             barCodeTest = "";
                             Console.WriteLine(modelFrame);
                             stevec++;
 
-                            frameLabelFinalFile.Save();
+                            //frameLabelFinalFile.Save();
 
                         }
                         catch
@@ -469,14 +480,10 @@ namespace nalepkeAdena
 
                 }
 
-                /*
-                DateTime thisDay = DateTime.Today;
-                Console.WriteLine(thisDay.ToString("d"));
-                string path = "./"; //get current path
-                string shrani = path + "\\" + thisDay.ToString("d") + "NALEPKE.xlsx"; // format save name of file to save on user destop
-                MessageBox.Show(shrani);
-                */
-         //       frameLabelFinalFile.SaveAs(shrani); //save sticker file
+
+
+                // format save name of file to save on user destop
+                //save sticker file
 
                 //frameLabelFinalFile.CloseWithoutSaving(); //close order file
 
@@ -730,7 +737,20 @@ namespace nalepkeAdena
                 //string shrani = path + "\\" + datum + "NALEPKE.xlsx"; // format save name of file to save on user destop
                 //MessageBox.Show(shrani);
                 //                 fileNalepke.SaveAs(shrani); //save sticker file
+                
 
+                for (int haha = 0; haha <= (images.Count()-1); haha++)
+                {
+                    images[haha].Save("frameBarCode.gif");
+                    SLPicture pic = new SLPicture("frameBarCode.gif");
+                    pic.SetPosition(barCodeIndex, 1);
+                    frameLabelFinalFile.InsertPicture(pic);
+                    pic.SetPosition(barCodeIndex, 14);
+                    frameLabelFinalFile.InsertPicture(pic);
+                    barCodeIndex = barCodeIndex + 9;
+                }
+                MessageBox.Show(shrani);
+                frameLabelFinalFile.SaveAs(shrani);
                 fileNarocila.CloseWithoutSaving(); //close order file
                 MessageBox.Show("Nalepke so kreirane."); //messsage shot for successful sticker create
 
