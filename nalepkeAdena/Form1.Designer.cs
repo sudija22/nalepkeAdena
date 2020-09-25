@@ -52,7 +52,7 @@
             this.potrditev.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.potrditev.Font = new System.Drawing.Font("Arial Narrow", 16F);
             this.potrditev.Location = new System.Drawing.Point(16, 105);
-            this.potrditev.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.potrditev.Margin = new System.Windows.Forms.Padding(4);
             this.potrditev.Name = "potrditev";
             this.potrditev.Size = new System.Drawing.Size(187, 62);
             this.potrditev.TabIndex = 1;
@@ -76,7 +76,7 @@
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button1.Font = new System.Drawing.Font("Arial Narrow", 16F);
             this.button1.Location = new System.Drawing.Point(16, 15);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(187, 62);
             this.button1.TabIndex = 0;
@@ -88,7 +88,7 @@
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(16, 218);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(187, 85);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -110,7 +110,7 @@
             // createBarcode
             // 
             this.createBarcode.Location = new System.Drawing.Point(376, 444);
-            this.createBarcode.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.createBarcode.Margin = new System.Windows.Forms.Padding(4);
             this.createBarcode.Name = "createBarcode";
             this.createBarcode.Size = new System.Drawing.Size(277, 26);
             this.createBarcode.TabIndex = 4;
@@ -120,7 +120,7 @@
             // pictureBox2
             // 
             this.pictureBox2.Location = new System.Drawing.Point(40, 343);
-            this.pictureBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBox2.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(285, 127);
             this.pictureBox2.TabIndex = 5;
@@ -129,7 +129,7 @@
             // barcodeText
             // 
             this.barcodeText.Location = new System.Drawing.Point(415, 372);
-            this.barcodeText.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.barcodeText.Margin = new System.Windows.Forms.Padding(4);
             this.barcodeText.Name = "barcodeText";
             this.barcodeText.Size = new System.Drawing.Size(132, 22);
             this.barcodeText.TabIndex = 6;
@@ -138,7 +138,7 @@
             // 
             this.btnBedList.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
             this.btnBedList.Location = new System.Drawing.Point(608, 15);
-            this.btnBedList.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnBedList.Margin = new System.Windows.Forms.Padding(4);
             this.btnBedList.Name = "btnBedList";
             this.btnBedList.Size = new System.Drawing.Size(207, 91);
             this.btnBedList.TabIndex = 8;
@@ -150,7 +150,7 @@
             // 
             this.btnCreateLabelBed.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
             this.btnCreateLabelBed.Location = new System.Drawing.Point(608, 218);
-            this.btnCreateLabelBed.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnCreateLabelBed.Margin = new System.Windows.Forms.Padding(4);
             this.btnCreateLabelBed.Name = "btnCreateLabelBed";
             this.btnCreateLabelBed.Size = new System.Drawing.Size(195, 106);
             this.btnCreateLabelBed.TabIndex = 10;
@@ -180,6 +180,7 @@
             this.button3.TabIndex = 12;
             this.button3.Text = "Kreiraj etikete za okvirje";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.potrditev_Click5);
             // 
             // Form1
             // 
@@ -198,7 +199,7 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.potrditev);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = " ";
             this.Load += new System.EventHandler(this.Form1_Load);

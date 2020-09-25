@@ -59,6 +59,7 @@ namespace nalepkeAdena
         string sizeYFrame;
         int piecesFrame;
         string narocilo;
+        int counterTotal=0;
         string dodatek1;
         string lastnost1;
         string oznakaModel;
@@ -80,6 +81,51 @@ namespace nalepkeAdena
         string auText1 = "FORI X SPONDE AUXILIA";
         string motoriNapis = "MOTORE MONTATO";
         string[] listaOblecene = { "MICHELLE", "ALEXIA", "ASIA", "DREAM", "SOMMIER", "FREESTYLE" };
+
+        List<String> modelsTotal = new List<String>();
+        public string column1;
+        public string column2;
+        public string column4;
+        public string column5;
+        public string column3;
+        string modelTotal;
+        string barkoda;
+        string column7;
+        string column8;
+        string column9;
+        string column10;
+        string column11;
+        string column12;
+        string column13;
+        string column14;
+        string column15;
+        string column16;
+        string ads17;
+        string column18;
+        string column19;
+        string column20;
+        string column21;
+        string column22;
+        string column23;
+        string column24;
+        string column25;
+        string column26;
+        string column27;
+        string column28;
+        string column29;
+        string column30;
+        string column31;
+        string column32;
+        string column33;
+        string column34;
+        string column35;
+        string column36;
+        string column37;
+        string column38;
+        string column39;
+        string column40;
+        string column41;
+        string column51;
 
         public bool checkSpecial(string model)
         {
@@ -454,7 +500,6 @@ namespace nalepkeAdena
                 MessageBox.Show("Nalepke so kreirane."); //messsage shot for successful sticker create
 
 
-
             }
         }
 
@@ -567,277 +612,298 @@ namespace nalepkeAdena
 
 
         }
+        private void fillCell(int counterTotal, SLDocument newList)
+        {
+            newList.SetCellValue(counterTotal, 1, column1);
+            newList.SetCellValue(counterTotal, 2, column2);
+            newList.SetCellValue(counterTotal, 3, column3);
+            newList.SetCellValue(counterTotal, 4, column4);
+            newList.SetCellValue(counterTotal, 5, column5);
+            newList.SetCellValue(counterTotal, 6, modelTotal);
+            newList.SetCellValue(counterTotal, 7, column7);
+            newList.SetCellValue(counterTotal, 8, column8);
+            newList.SetCellValue(counterTotal, 9, column9);
+            newList.SetCellValue(counterTotal, 10, column10);
+            newList.SetCellValue(counterTotal, 11, column11);
+            newList.SetCellValue(counterTotal, 12, column12);
+            newList.SetCellValue(counterTotal, 13, column13);
+            newList.SetCellValue(counterTotal, 14, column14);
+            newList.SetCellValue(counterTotal, 15, column15);
+            newList.SetCellValue(counterTotal, 16, column16);
+            newList.SetCellValue(counterTotal, 17, ads17);
+            newList.SetCellValue(counterTotal, 18, column18);
+            newList.SetCellValue(counterTotal, 19, column19);
+            newList.SetCellValue(counterTotal, 20, column20);
+            newList.SetCellValue(counterTotal, 21, column21);
+            newList.SetCellValue(counterTotal, 22, column22);
+            newList.SetCellValue(counterTotal, 23, column23);
+            newList.SetCellValue(counterTotal, 24, column24);
+            newList.SetCellValue(counterTotal, 25, column25);
+            newList.SetCellValue(counterTotal, 26, column26);
+            newList.SetCellValue(counterTotal, 27, column27);
+            newList.SetCellValue(counterTotal, 28, column28);
+            newList.SetCellValue(counterTotal, 29, column29);
+            newList.SetCellValue(counterTotal, 30, column30);
+            newList.SetCellValue(counterTotal, 31, column31);
+            newList.SetCellValue(counterTotal, 32, column32);
+            newList.SetCellValue(counterTotal, 33, column33);
+            newList.SetCellValue(counterTotal, 34, column34);
+            newList.SetCellValue(counterTotal, 35, column35);
+            newList.SetCellValue(counterTotal, 36, column36);
+            newList.SetCellValue(counterTotal, 37, column37);
+            newList.SetCellValue(counterTotal, 38, column38);
+            newList.SetCellValue(counterTotal, 39, column39);
+            newList.SetCellValue(counterTotal, 40, column40);
+            newList.SetCellValue(counterTotal, 41, column41);
+            newList.SetCellValue(counterTotal, 51, column51);
+        }
         private void potrditev_Click5(object sender, EventArgs e)
         {
             if (checkFileFormat(sender, e, datoteka))
             {
 
-                SLDocument fileNarocila = new SLDocument(datoteka); //open order file
+                SLDocument fileLista = new SLDocument(datoteka); //open order file
                 Console.WriteLine("tukaj");
                 Console.WriteLine(datoteka);
-                Console.WriteLine(fileNarocila.GetCellValueAsString(1, 1));
-                string pathPredloga = "../";
-                string kocnoPredlogaPath = pathPredloga + "\\template.xlsx";
+                Console.WriteLine("prvokoprvo"+fileLista.GetCellValueAsString(4, 1));
+                
 
 
                 DateTime thisDay = DateTime.Today;
                 string path = "./"; //get current path
-                string shrani = path + "\\" + thisDay.ToString("d") + "NALEPKE.xlsx";
+                string pathTotal = path + "\\" + thisDay.ToString("d") + "NEW.xlsx";
 
-                SLWorksheetStatistics stats = fileNarocila.GetWorksheetStatistics(); // stats for order file, to get last row
+                SLWorksheetStatistics stats = fileLista.GetWorksheetStatistics(); // stats for order file, to get last row
+                SLDocument newList = new SLDocument();
+                //morem glavo prekoprat
 
-
-
-                SLDocument templateXLSX = new SLDocument("template.xlsx");
-
-                templateXLSX.SaveAs(shrani);
-
-                SLDocument frameLabelFinalFile = new SLDocument(shrani);
-
-                SLStyle odebeljeno = frameLabelFinalFile.CreateStyle();
-                SLStyle fontMereLength = frameLabelFinalFile.CreateStyle();
+                SLStyle odebeljeno = newList.CreateStyle();
+                SLStyle fontMereLength = newList.CreateStyle();
                 fontMereLength.Font.FontName = "Arial CE";
                 odebeljeno.Font.Bold = true;
                 odebeljeno.Font.FontName = "Arial CE";
+                
+                List<string> ListBedModels = new List<string>();
+                List<string> ListFrameModels = new List<string>();
+                ListFrameModels.Add("SUPREMA");
+                ListFrameModels.Add("ORTHOPEDIC");
+                ListFrameModels.Add("ADVANCE PT");
+                ListFrameModels.Add("ADVANCE");
+                ListFrameModels.Add("TECNOFLEX");
+                ListFrameModels.Add("MEDICAL PT");
+                ListFrameModels.Add("PRIMA");
+                ListFrameModels.Add("INFINITY");
+                ListFrameModels.Add("NEW PERFECTA");
+                ListFrameModels.Add("MEDICAL - UF");
+                ListFrameModels.Add("FLEXYMED");
+                ListFrameModels.Add("EVO   NETTUNO");
+                ListFrameModels.Add("ESTREMA");
+                ListFrameModels.Add("DYNAMIC - UF");
+                ListFrameModels.Add("DYNAMIC");
+                ListFrameModels.Add("SANITYMED");
+                ListFrameModels.Add("TECNOFLEX - UF");
+                ListFrameModels.Add("EVO   SATURNO");
+                ListFrameModels.Add("EVO   PLUTONE");
+                ListFrameModels.Add("ADIVA");
+                ListFrameModels.Add("MEDICAL PT - UF");
+                ListFrameModels.Add("PROGRESS");
+                ListFrameModels.Add("BASIC");
 
-                int stevec = 2;
-
-                for (int i = 3; i <= stats.NumberOfRows; i++)
+                ListBedModels.Add("SOMMIER");
+                ListBedModels.Add("HELENE");
+                ListBedModels.Add("GAIA");
+                ListBedModels.Add("JASMINE");
+                ListBedModels.Add("MICHELLE");
+                ListBedModels.Add("ALEXIA");
+                ListBedModels.Add("SMART");
+                ListBedModels.Add("DENISE");
+                ListBedModels.Add("BEATRICE");
+                ListBedModels.Add("NICOLE");
+                ListBedModels.Add("JUSTINE ERGO");
+                ListBedModels.Add("JUSTINE");
+                ListBedModels.Add("CUBE");
+                ListBedModels.Add("DREAM");
+                ListBedModels.Add("JUSTINE LINE ERGO");
+                ListBedModels.Add("FREESTYLE");
+                ListBedModels.Add("DIAMOND");
+                ListBedModels.Add("PATRICYA");
+                ListBedModels.Add("DIAMOND SWAR");
+                ListBedModels.Add("INSIDE");
+                ListBedModels.Add("ASIA");
+                ListBedModels.Add("FENICE");
+                ListBedModels.Add("PEGASUS");
+                ListBedModels.Add("JUSTINE DOTS ERGO");
+                ListBedModels.Add("DORADO");
+                ListBedModels.Add("ARIES ERGO");
+                ListBedModels.Add("CARLOTTA");
+                ListBedModels.Add("GUENDALINA");
+                ListBedModels.Add("CORINNE");
+                ListBedModels.Add("SIRIO");
+                ListBedModels.Add("ANDROMEDA");
+                ListBedModels.Add("ARIES");
+                ListBedModels.Add("VEGA");
+                ListBedModels.Add("IDRA");
+                ListBedModels.Add("JUSTINE LINE");
+                ListBedModels.Add("NIKY");
+                ListBedModels.Add("MAIA");
+                Console.WriteLine(stats.NumberOfRows);
+                counterTotal = 4;
+                //stajlo
+                newList.SetRowStyle(1, fileLista.GetColumnStyle(1));
+                newList.SetRowStyle(2, fileLista.GetColumnStyle(2));
+                newList.SetRowStyle(3, fileLista.GetColumnStyle(3));
+                for (int l = 1; l <= 52; l++)
                 {
+                    newList.SetColumnStyle(l, fileLista.GetColumnStyle(l));
+                    newList.SetColumnWidth(l, fileLista.GetColumnWidth(l));
+                }
+                for (int i = 0; i <= stats.NumberOfRows; i++)
+                {
+
                     Console.WriteLine(stats.NumberOfRows);
                     Console.WriteLine(i);
-                    string mess = "halooo";
-                    ordineFrame = fileNarocila.GetCellValueAsString(i, 4);
-                    rifFrame = fileNarocila.GetCellValueAsString(i, 16);
-                    vVFrame = fileNarocila.GetCellValueAsString(i, 8);
-                    deliveyCompanyFrame = fileNarocila.GetCellValueAsString(i, 15);
+                    column3 = fileLista.GetCellValueAsString(i, 3);
+                    column9 = fileLista.GetCellValueAsString(i, 9);
+                    column10 = fileLista.GetCellValueAsString(i, 10);
+                    column7 = fileLista.GetCellValueAsString(i, 7);
+                    column8 = fileLista.GetCellValueAsString(i, 8);
                     DateTime today = DateTime.Today;
                     string[] collection = today.ToString("d").Split('.');
-                    stickerDate = (String.Format("{0}{1}", collection[0], collection[1].Trim())).Trim();
-                    Console.WriteLine(stickerDate);
+                    
+                    string modelTotalNew = "";
+                    modelTotal = fileLista.GetCellValueAsString(i, 6);
 
-                    modelFrame = fileNarocila.GetCellValueAsString(i, 6);
-                    if (modelFrame == "EVO   SATURNO")
-                    {
-                        modelFrame = "SATURNO";
-                    }
-                    if (modelFrame == "EVO   PLUTONE")
-                    {
-                        modelFrame = "PLUTONE";
-                    }
-                    if (modelFrame == "EVO   NETUNO")
-                    {
-                        modelFrame = "NETTUNO";
-                    }
-                    if (modelFrame == "EVO  PT  NETTUNO")
-                    {
-                        modelFrame = "NETTUNO";
-                    }
-                    if (modelFrame == "EVO  PT  PLUTONE")
-                    {
-                        modelFrame = "PLUTONE";
-                    }
+                    column1 = fileLista.GetCellValueAsString(i, 1);
+                    column2 = fileLista.GetCellValueAsString(i, 2);
+                    column4 = fileLista.GetCellValueAsString(i, 4);
+                    column5 = fileLista.GetCellValueAsString(i, 5);
+                    column11 = fileLista.GetCellValueAsString(i, 11);
+                    column12 = fileLista.GetCellValueAsString(i, 12);
+                    column13 = fileLista.GetCellValueAsString(i, 13);
+                    column14 = fileLista.GetCellValueAsString(i, 14);
+                    column15 = fileLista.GetCellValueAsString(i, 15);
+                    column16 = fileLista.GetCellValueAsString(i, 16);
+                    ads17 = fileLista.GetCellValueAsString(i, 17);
+                    column18 = fileLista.GetCellValueAsString(i, 18);
+                    column19 = fileLista.GetCellValueAsString(i, 19);
+                    column20 = fileLista.GetCellValueAsString(i, 20);
+                    column21 = fileLista.GetCellValueAsString(i, 21);
+                    column22 = fileLista.GetCellValueAsString(i, 22);
+                    column23 = fileLista.GetCellValueAsString(i, 23);
+                    column24 = fileLista.GetCellValueAsString(i, 24);
+                    column25 = fileLista.GetCellValueAsString(i, 25);
+                    column26 = fileLista.GetCellValueAsString(i, 26);
+                    column27 = fileLista.GetCellValueAsString(i, 27);
+                    column28 = fileLista.GetCellValueAsString(i, 28);
+                    column29 = fileLista.GetCellValueAsString(i, 29);
+                    column30 = fileLista.GetCellValueAsString(i, 30);
+                    column31 = fileLista.GetCellValueAsString(i, 31);
+                    column32 = fileLista.GetCellValueAsString(i, 32);
+                    column33 = fileLista.GetCellValueAsString(i, 33);
+                    column34 = fileLista.GetCellValueAsString(i, 34);
+                    column35 = fileLista.GetCellValueAsString(i, 35);
+                    column36 = fileLista.GetCellValueAsString(i, 36);
+                    column37 = fileLista.GetCellValueAsString(i, 37);
+                    column38 = fileLista.GetCellValueAsString(i, 38);
+                    column39 = fileLista.GetCellValueAsString(i, 39);
+                    column40 = fileLista.GetCellValueAsString(i, 40);
+                    column41 = fileLista.GetCellValueAsString(i, 41);
+                    column51 = fileLista.GetCellValueAsString(i, 51);
 
-                    typeFrame = fileNarocila.GetCellValueAsString(i, 7);
-                    sizeXFrame = fileNarocila.GetCellValueAsString(i, 9);
-                    sizeYFrame = fileNarocila.GetCellValueAsString(i, 10);
-                    piecesFrame = fileNarocila.GetCellValueAsInt32(i, 22);
-                    motorFrame = fileNarocila.GetCellValueAsString(i, 20);
-                    mountTypeFrame = fileNarocila.GetCellValueAsString(i, 11);
-                    packingFrame = fileNarocila.GetCellValueAsString(i, 12);
-                    italCodeFrame = fileNarocila.GetCellValueAsString(i, 1);
-                    personalizationFrame = fileNarocila.GetCellValueAsString(i, 5);
-                    legsFrame = fileNarocila.GetCellValueAsString(i, 19);
-                    descriptionFrame = fileNarocila.GetCellValueAsString(i, 17);
-                    firstAdFrame = fileNarocila.GetCellValueAsString(i, 13);
-                    secondAdFrame = fileNarocila.GetCellValueAsString(i, 14);
-
-                    Console.WriteLine(mess);
-                    // Add some text to file    
-                    adsFrame.Clear();
-                    if (packingFrame == "C")
+                    
+                    if (i.Equals(1) || i.Equals(2) || i.Equals(3))
                     {
-                        adsFrame.Add("CONCARTONE");
-                    }// c concartone
-
-                    if (motorFrame == "T2" || motorFrame == "T3" || motorFrame == "T6" || motorFrame == "T56")
-                    {
-                        adsFrame.Add("MOTORE MONTATA");
+                        fillCell(i, newList);
                     }
-                    if (legsFrame != "" || legsFrame != null)
+                    else
                     {
-                        adsFrame.Add(legsFrame);
-                    }
-                    if (descriptionFrame != "" || descriptionFrame != null)
-                    {
-                        adsFrame.Add(descriptionFrame);
-                    } //napoljnen seznam ads
-                    if (firstAdFrame != "" || firstAdFrame != null)
-                    {
-                        adsFrame.Add(firstAdFrame);
-                    } //napoljnen seznam ads
-                    if (secondAdFrame != "" || secondAdFrame != null)
-                    {
-                        adsFrame.Add(secondAdFrame);
-                    } //napoljnen seznam ads
-
-
-                    Console.WriteLine(adsFrame);
-                    for (int k = 0; k < adsFrame.Count; k++)
-                    {
-
-                        if (ad1.Length + adsFrame[k].Length <= 16)
+                        if (ListFrameModels.Contains(modelTotal))
                         {
-                            ad1 = ad1 + adsFrame[k] + " ";
+                            barkoda = column4 + "-" + column1 + "-" + modelTotal + "-" + "RETE";
+                            fillCell(counterTotal, newList);
+                            newList.SetCellValue(counterTotal, 52, barkoda);
+                            counterTotal++;
+
                         }
-                        else
+
+                        modelTotal.Split(' ').ToList().ForEach(Console.WriteLine);
+                        if (ListBedModels.Contains(modelTotal.Split(' ')[0]))
                         {
-                            if (ad2.Length + adsFrame[k].Length <= 16)
+                            if (modelTotal != "NICOLE")
                             {
-                                ad2 = ad2 + adsFrame[k] + " ";
+                                if (modelTotal.Contains("3"))
+                                {
+                                    barkoda = column4 + "-" + column1 + "-" + modelTotal + "-" + "FODERA BASE";
+                                    fillCell(counterTotal, newList);
+                                    newList.SetCellValue(counterTotal, 52, barkoda);
+                                    counterTotal++;
+                                    barkoda = column4 + "-" + column1 + "-" + modelTotal + "-" + "FUSTO BASE";
+                                    fillCell(counterTotal, newList);
+                                    newList.SetCellValue(counterTotal, 52, barkoda);
+                                    counterTotal++;
+                                    barkoda = column4 + "-" + column1 + "-" + modelTotal + "-" + "TESTATA";
+                                    fillCell(counterTotal, newList);
+                                    newList.SetCellValue(counterTotal, 52, barkoda);
+                                    counterTotal++;
+                                }
+                                if (modelTotal.Contains("4"))
+                                {
+                                    barkoda = column4 + "-" + column1 + "-" + modelTotal + "-" + "FODERA BASE";
+                                    fillCell(counterTotal, newList);
+                                    newList.SetCellValue(counterTotal, 52, barkoda);
+                                    counterTotal++;
+                                    barkoda = column4 + "-" + column1 + "-" + modelTotal + "-" + "FUSTO BASE";
+                                    fillCell(counterTotal, newList);
+                                    newList.SetCellValue(counterTotal, 52, barkoda);
+                                    counterTotal++;
+
+                                }
+                                if (column21.Contains("P"))
+                                {
+                                    barkoda = column4 + "-" + column1 + "-" + modelTotal + "-" + "PIEDI";
+                                    fillCell(counterTotal, newList);
+                                    newList.SetCellValue(counterTotal, 52, barkoda);
+                                    counterTotal++;
+                                }
                             }
                             else
                             {
-                                if (ad3.Length + adsFrame[k].Length <= 28)
+                                barkoda = column4 + "-" + column1 + "-" + modelTotal + "-" + "FODERA BASE";
+                                fillCell(counterTotal, newList);
+                                newList.SetCellValue(counterTotal, 52, barkoda);
+                                counterTotal++;
+                                barkoda = column4 + "-" + column1 + "-" + modelTotal + "-" + "FUSTO BASE";
+                                fillCell(counterTotal, newList);
+                                newList.SetCellValue(counterTotal, 52, barkoda);
+                                counterTotal++;
+                                barkoda = column4 + "-" + column1 + "-" + modelTotal + "-" + "TESTATA";
+                                fillCell(counterTotal, newList);
+                                newList.SetCellValue(counterTotal, 52, barkoda);
+                                counterTotal++;
+                                if (column21.Contains("P"))
                                 {
-                                    ad3 = ad3 + adsFrame[k] + " ";
-
+                                    barkoda = column4 + "-" + column1 + "-" + modelTotal + "-" + "PIEDI";
+                                    fillCell(counterTotal, newList);
+                                    newList.SetCellValue(counterTotal, 52, barkoda);
+                                    counterTotal++;
                                 }
                             }
+                            //TREBA ŠE DOKONČAT
+
                         }
 
                     }
-
-
-                    for (int j = 1; j <= piecesFrame; j++)
-                    {
-                        //prva vrstica
-                        frameLabelFinalFile.SetCellValue(stevec, 1, "ORDINE:");
-                        frameLabelFinalFile.SetCellValue(stevec, 3, ordineFrame);
-                        frameLabelFinalFile.SetCellValue(stevec, 7, stickerDate);
-                        frameLabelFinalFile.SetCellValue(stevec, 1 + 13, "ORDINE:");
-                        frameLabelFinalFile.SetCellValue(stevec, 3 + 13, ordineFrame);
-                        frameLabelFinalFile.SetCellValue(stevec, 7 + 13, stickerDate);
-                        stevec++;
-
-                        //druga vrstica
-                        frameLabelFinalFile.SetCellValue(stevec, 1 + 13, "RIF:");
-                        frameLabelFinalFile.SetCellValue(stevec, 2, deliveyCompanyFrame + rifFrame);
-                        frameLabelFinalFile.SetCellValue(stevec, 1, "RIF:");
-                        frameLabelFinalFile.SetCellValue(stevec, 2 + 13, deliveyCompanyFrame + rifFrame);
-                        stevec++;
-
-
-                        //tretja vrstica
-                        frameLabelFinalFile.SetCellValue(stevec, 7, mountTypeFrame);
-                        frameLabelFinalFile.SetCellValue(stevec, 7 + 13, mountTypeFrame);
-                        if (mountTypeFrame == "CB")
-                        {
-                            frameLabelFinalFile.SetCellValue(stevec, 1, "CON FORI X MECCANISMO CONFORT");
-                            frameLabelFinalFile.SetCellValue(stevec, 1 + 13, "CON FORI X MECCANISMO CONFORT");
-                        }
-                        stevec++;
-
-                        //cetrta vrstica 
-
-                        stevec++;
-
-                        //peta vrstica
-
-                        if (modelFrame.Length > 9)
-                        {
-                            fontMereLength.Font.FontSize = 14;
-                            frameLabelFinalFile.SetCellValue(stevec, 1, modelFrame);
-                            frameLabelFinalFile.SetCellStyle(stevec, 1, fontMereLength);
-                            frameLabelFinalFile.SetCellValue(stevec, 1 + 13, modelFrame);
-                            frameLabelFinalFile.SetCellStyle(stevec, 1 + 13, fontMereLength);
-                            fontMereLength.Font.FontSize = 16;
-                        }
-                        else
-                        {
-                            frameLabelFinalFile.SetCellValue(stevec, 1, modelFrame);
-                            frameLabelFinalFile.SetCellValue(stevec, 1 + 13, modelFrame);
-                        }
-                        frameLabelFinalFile.SetCellValue(stevec, 7, typeFrame);
-                        frameLabelFinalFile.SetCellValue(stevec, 6, vVFrame);
-                        frameLabelFinalFile.SetCellValue(stevec, 7 + 13, typeFrame);
-                        frameLabelFinalFile.SetCellValue(stevec, 6 + 13, vVFrame);
-                        Console.WriteLine(fontMereLength.Font.FontSize);
-                        stevec++;
-
-                        //sesta vrstica
-                        stevec++;
-
-                        //sedma vrstica
-                        frameLabelFinalFile.SetCellValue(stevec, 1, sizeXFrame + "X" + sizeYFrame);
-                        frameLabelFinalFile.SetCellValue(stevec, 1 + 13, sizeXFrame + "X" + sizeYFrame);
-                        frameLabelFinalFile.SetCellValue(stevec, 4, ad1);
-                        frameLabelFinalFile.SetCellValue(stevec, 4 + 13, ad1);
-                        //osma vrstica
-                        stevec++;
-                        frameLabelFinalFile.SetCellValue(stevec, 4, ad2);
-                        frameLabelFinalFile.SetCellValue(stevec, 4 + 13, ad2);
-                        //deveta vrstica
-                        stevec++;
-                        frameLabelFinalFile.SetCellValue(stevec, 1, ad3);
-                        frameLabelFinalFile.SetCellValue(stevec, 1 + 13, ad3);
-                        frameLabelFinalFile.SetCellStyle(stevec, 1, odebeljeno);
-                        frameLabelFinalFile.SetCellStyle(stevec, 1 + 13, odebeljeno);
-                        //desetavrstica
-
-                        try
-                        {
-                            Zen.Barcode.Code128BarcodeDraw brCode = Zen.Barcode.BarcodeDrawFactory.Code128WithChecksum;
-                            barCodeTest = ordineFrame + "-" + italCodeFrame + "-" + modelFrame + "-" + "RETE";
-                            Image image = brCode.Draw(barCodeTest, 25); // številka pomeni višino, širina je odvisna od števila znakov // kako bomo pozicionirali
-                                                                        // image.Save("frameBarCode.gif");
-                            images.Add(image);
-
-                            images[barCounter].Save("frameBarCode.gif");
-                            SLPicture pic = new SLPicture("frameBarCode.gif");
-                            pic.SetPosition(stevec, 1);
-                            frameLabelFinalFile.InsertPicture(pic);
-                            pic.SetPosition(stevec, 14);
-                            frameLabelFinalFile.InsertPicture(pic);
-                            barCounter++;
-
-                            barCodeTest = "";
-                            Console.WriteLine(modelFrame);
-                            stevec++;
-
-
-
-                        }
-                        catch
-                        {
-
-                        }
-
-                        //to bos izbrisal drugic
-                        stevec = stevec + 2;
-
-                        if (stevec % 46 == 0)
-                        {
-                            frameLabelFinalFile.InsertPageBreak(stevec, -1);
-                        }
-                        frameLabelFinalFile.Save();
-                        frameLabelFinalFile = new SLDocument(shrani);
-                        Console.WriteLine("nekar me");
-                    }
-                    ad1 = ad2 = ad3 = "";
-
+                    Console.WriteLine("nekar me");
                 }
 
-                MessageBox.Show(shrani);
-                //frameLabelFinalFile.SaveAs(shrani);
-                frameLabelFinalFile.Save();
-                fileNarocila.CloseWithoutSaving(); //close order file
+            MessageBox.Show(pathTotal);
+                newList.SaveAs(pathTotal);
+            //    fileLista.CloseWithoutSaving(); //close order file
                 MessageBox.Show("Nalepke so kreirane."); //messsage shot for successful sticker create
 
-
-
             }
-        }
+
+        }  
 
         private void btnCreateLabelBed_Click(object sender, EventArgs e)
         {
