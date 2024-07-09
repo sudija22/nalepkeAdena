@@ -77,6 +77,7 @@ namespace nalepkeAdena
         string sizeYFrame;
         int piecesFrame;
         int counterTotal = 0;
+        int not;
 
 
         public string column1;
