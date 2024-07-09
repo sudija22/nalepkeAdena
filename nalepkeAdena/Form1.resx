@@ -518,22 +518,6 @@
         /6tOAFHv/wF6kGrNAPWcPAAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Navodila:
-1. Lista z naročili mora biti v
-formatu ".xlsx".
-2. Lista naročil ne sme biti 
-odprta v programu.
-3. Lista mora biti pravilno
-struktorirana.
-4. Pred tiskanjem preveri
-pravilnost narejenih nalepk.
-5. Preveri če pride kje do
-zamika.
-6. Nastavi predogled tiskanja.
-7. Nalepke natisni.
-</value>
-  </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAEAAGQAAAEAIAConAEAFgAAACgAAAAAAQAAyAAAAAEAIAAAAAAAAJABAHQSAAB0EgAAAAAAAAAA
